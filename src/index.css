@@ -6,75 +6,79 @@
 
 @layer base {
   :root {
-    --background: 20 14% 4%;
+    --background: 150 30% 6%;
     --foreground: 45 30% 94%;
 
-    --card: 20 10% 8%;
+    --card: 150 25% 10%;
     --card-foreground: 45 30% 94%;
 
-    --popover: 20 10% 8%;
+    --popover: 150 25% 10%;
     --popover-foreground: 45 30% 94%;
 
-    --primary: 43 74% 49%;
-    --primary-foreground: 20 14% 4%;
+    --primary: 0 72% 50%;
+    --primary-foreground: 45 30% 94%;
 
-    --secondary: 20 10% 12%;
+    --secondary: 150 40% 20%;
     --secondary-foreground: 45 30% 94%;
 
-    --muted: 20 10% 15%;
-    --muted-foreground: 45 10% 55%;
+    --muted: 150 20% 15%;
+    --muted-foreground: 45 10% 60%;
 
-    --accent: 43 74% 49%;
-    --accent-foreground: 20 14% 4%;
+    --accent: 120 40% 35%;
+    --accent-foreground: 45 30% 94%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 45 30% 94%;
 
-    --border: 43 30% 20%;
-    --input: 20 10% 15%;
-    --ring: 43 74% 49%;
+    --border: 150 30% 20%;
+    --input: 150 20% 15%;
+    --ring: 0 72% 50%;
 
     --radius: 0.5rem;
 
-    /* Custom tokens */
-    --gradient-gold: linear-gradient(135deg, hsl(43, 74%, 49%) 0%, hsl(35, 80%, 40%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(20, 14%, 4%) 0%, hsl(20, 10%, 8%) 100%);
-    --shadow-glow: 0 0 60px hsl(43, 74%, 49%, 0.15);
+    /* Christmas tokens */
+    --christmas-red: 0 72% 50%;
+    --christmas-green: 120 40% 35%;
+    --christmas-gold: 43 74% 49%;
+    
+    --gradient-christmas: linear-gradient(135deg, hsl(0, 72%, 50%) 0%, hsl(120, 40%, 35%) 100%);
+    --gradient-festive: linear-gradient(180deg, hsl(150, 30%, 6%) 0%, hsl(150, 25%, 10%) 100%);
+    --shadow-christmas: 0 0 60px hsl(0, 72%, 50%, 0.2);
     --shadow-subtle: 0 4px 30px hsl(0, 0%, 0%, 0.5);
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 
-    --sidebar-background: 20 10% 6%;
+    --sidebar-background: 150 25% 8%;
     --sidebar-foreground: 45 30% 94%;
-    --sidebar-primary: 43 74% 49%;
-    --sidebar-primary-foreground: 20 14% 4%;
-    --sidebar-accent: 20 10% 12%;
+    --sidebar-primary: 0 72% 50%;
+    --sidebar-primary-foreground: 45 30% 94%;
+    --sidebar-accent: 150 25% 12%;
     --sidebar-accent-foreground: 45 30% 94%;
-    --sidebar-border: 43 30% 15%;
-    --sidebar-ring: 43 74% 49%;
+    --sidebar-border: 150 30% 15%;
+    --sidebar-ring: 0 72% 50%;
   }
 
   .dark {
-    --background: 20 14% 4%;
+    --background: 150 30% 6%;
     --foreground: 45 30% 94%;
-    --card: 20 10% 8%;
+    --card: 150 25% 10%;
     --card-foreground: 45 30% 94%;
-    --popover: 20 10% 8%;
+    --popover: 150 25% 10%;
     --popover-foreground: 45 30% 94%;
-    --primary: 43 74% 49%;
-    --primary-foreground: 20 14% 4%;
-    --secondary: 20 10% 12%;
+    --primary: 0 72% 50%;
+    --primary-foreground: 45 30% 94%;
+    --secondary: 150 40% 20%;
     --secondary-foreground: 45 30% 94%;
-    --muted: 20 10% 15%;
-    --muted-foreground: 45 10% 55%;
-    --accent: 43 74% 49%;
-    --accent-foreground: 20 14% 4%;
+    --muted: 150 20% 15%;
+    --muted-foreground: 45 10% 60%;
+    --accent: 120 40% 35%;
+    --accent-foreground: 45 30% 94%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 45 30% 94%;
-    --border: 43 30% 20%;
-    --input: 20 10% 15%;
-    --ring: 43 74% 49%;
+    --border: 150 30% 20%;
+    --input: 150 20% 15%;
+    --ring: 0 72% 50%;
   }
 }
 
@@ -102,16 +106,16 @@
     font-family: var(--font-body);
   }
 
-  .gradient-gold {
-    background: var(--gradient-gold);
+  .gradient-christmas {
+    background: var(--gradient-christmas);
   }
 
-  .gradient-dark {
-    background: var(--gradient-dark);
+  .gradient-festive {
+    background: var(--gradient-festive);
   }
 
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
+  .shadow-christmas {
+    box-shadow: var(--shadow-christmas);
   }
 
   .shadow-subtle {
@@ -119,10 +123,23 @@
   }
 
   .text-gradient {
-    background: var(--gradient-gold);
+    background: linear-gradient(135deg, hsl(0, 72%, 55%) 0%, hsl(43, 74%, 49%) 50%, hsl(120, 40%, 40%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  @keyframes snowfall {
+    0% {
+      transform: translateY(-10vh) rotate(0deg);
+    }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+    }
+  }
+
+  .animate-snowfall {
+    animation: snowfall linear infinite;
   }
 }
 
@@ -136,7 +153,7 @@
   .btn-primary {
     @apply bg-primary text-primary-foreground hover:bg-primary/90 
            transition-all duration-300 font-medium tracking-wider uppercase
-           shadow-glow hover:shadow-[0_0_80px_hsl(43,74%,49%,0.25)];
+           shadow-christmas hover:shadow-[0_0_80px_hsl(0,72%,50%,0.3)];
   }
 
   .glass-card {
