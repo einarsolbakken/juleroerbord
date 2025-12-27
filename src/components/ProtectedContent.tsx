@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, Gift, HelpCircle, Image, MoreHorizontal, ChevronDown, X } from "lucide-react";
+import { LogOut, Gift, HelpCircle, Image, ChevronDown, X } from "lucide-react";
 import Snowfall from "./Snowfall";
 
 interface ProtectedContentProps {
@@ -139,28 +139,21 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         </div>
 
         {/* Feature cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {[
-            {
-              id: "faq",
-              icon: HelpCircle,
-              title: "FAQ",
-              description: "Ofte stilte spørsmål om julefeiringen 🎄",
-              delay: "0.8s"
-            },
             {
               id: "arkiv",
               icon: Image,
               title: "Arkiv",
               description: "Bilder fra julefeiringen i fjor 📸",
-              delay: "0.9s"
+              delay: "0.8s"
             },
             {
-              id: "annet",
-              icon: MoreHorizontal,
-              title: "Annet",
-              description: "Annen nyttig informasjon ⭐",
-              delay: "1.0s"
+              id: "faq",
+              icon: HelpCircle,
+              title: "FAQ",
+              description: "Ofte stilte spørsmål om julefeiringen 🎄",
+              delay: "0.9s"
             }
           ].map((feature) => (
             <div
@@ -168,7 +161,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
               onClick={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
               className={`glass-card rounded-2xl p-8 opacity-0 animate-fade-in cursor-pointer transition-all duration-500 group
                 ${expandedCard === feature.id 
-                  ? 'md:col-span-3 border-primary/50 bg-primary/5' 
+                  ? 'md:col-span-2 border-primary/50 bg-primary/5' 
                   : 'hover:border-primary/40'
                 }`}
               style={{ animationDelay: feature.delay }}
@@ -227,23 +220,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     <p className="text-muted-foreground mt-4 text-xs text-center italic">
                       Last opp ekte bilder ved å erstatte emoji-plassholderne 📷
                     </p>
-                  </div>
-                )}
-                
-                {feature.id === "annet" && (
-                  <div className="space-y-4">
-                    <div className="glass-card rounded-xl p-4 bg-background/50">
-                      <p className="text-primary font-medium mb-2">🚗 Parkering</p>
-                      <p className="text-foreground text-sm">Det er plass til 4 biler i oppkjørselen. Flere kan parkere langs veien.</p>
-                    </div>
-                    <div className="glass-card rounded-xl p-4 bg-background/50">
-                      <p className="text-primary font-medium mb-2">🏠 Overnatting</p>
-                      <p className="text-foreground text-sm">Vi har plass til overnatting for de som ønsker det!</p>
-                    </div>
-                    <div className="glass-card rounded-xl p-4 bg-background/50">
-                      <p className="text-primary font-medium mb-2">📱 Kontakt</p>
-                      <p className="text-foreground text-sm">Ring eller send melding hvis du trenger noe!</p>
-                    </div>
                   </div>
                 )}
               </div>
