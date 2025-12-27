@@ -92,7 +92,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                   {/* Content card with flip effect */}
                   <div className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                     <div className="perspective-1000 inline-block w-full md:max-w-sm cursor-pointer">
-                      <div className="flip-card relative w-full h-48 transition-transform duration-500 transform-style-3d">
+                      <div className="flip-card relative w-full h-48 transform-style-3d">
                         {/* Front of card */}
                         <div className="absolute inset-0 glass-card rounded-2xl p-6 backface-hidden">
                           <div className="text-3xl mb-3">{event.icon}</div>
