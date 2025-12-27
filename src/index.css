@@ -17,7 +17,7 @@
   transform: rotateY(180deg);
 }
 
-.group:hover .hover\:rotate-y-180 {
+.flip-card:hover {
   transform: rotateY(180deg);
 }
 @tailwind components;
