@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, Gift, Star, Heart, TreePine } from "lucide-react";
+import { LogOut, Gift, HelpCircle, Image, MoreHorizontal, ChevronDown, X } from "lucide-react";
 import Snowfall from "./Snowfall";
 
 interface ProtectedContentProps {
@@ -7,6 +8,20 @@ interface ProtectedContentProps {
 }
 
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
+  const faqItems = [
+    { q: "Når begynner julemiddagen?", a: "Julemiddagen serveres klokken 18:00. Husk å være sulten!" },
+    { q: "Hvem deler ut gaver?", a: "Den yngste i familien deler ut gaver, som vanlig!" },
+    { q: "Hva skal vi se på TV?", a: "Vi stemmer over julefilmen etter middagen." },
+    { q: "Er det glutenfrie alternativer?", a: "Ja! Vi har glutenfri dessert og tilbehør." },
+    { q: "Når er det greit å gå hjem?", a: "Feiringen varer så lenge vi har det gøy sammen!" },
+  ];
+
+  const archiveImages = [
+    "🎄", "🎁", "🎅", "⛄", "🦌", "🌟", "🕯️", "🍪",
+    "❄️", "🔔", "🎀", "🧦", "🎿", "☃️", "🌲", "🍫"
+  ];
   const timelineEvents = [
     { time: "10:00", title: "Julemorgen", description: "Våkne opp og åpne første gave! ☕", icon: "🌅", backInfo: "Start dagen med kaffe og juleboller mens barna åpner en liten gave hver." },
     { time: "12:00", title: "Julelunsj", description: "Tradisjonell risgrøt med mandel 🍚", icon: "🍽️", backInfo: "Den som finner mandelen får marsipangris! Husk å sjekke at alle har fått smake." },
@@ -127,38 +142,111 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {[
             {
-              icon: TreePine,
-              title: "Juletradisjoner",
-              description: "Våre kjære tradisjoner som gjør julen magisk 🎄",
+              id: "faq",
+              icon: HelpCircle,
+              title: "FAQ",
+              description: "Ofte stilte spørsmål om julefeiringen 🎄",
               delay: "0.8s"
             },
             {
-              icon: Heart,
-              title: "Familiekjærlighet",
-              description: "Tid sammen med de vi er glad i ❤️",
+              id: "arkiv",
+              icon: Image,
+              title: "Arkiv",
+              description: "Bilder fra julefeiringen i fjor 📸",
               delay: "0.9s"
             },
             {
-              icon: Star,
-              title: "Julemagi",
-              description: "Den spesielle følelsen som bare jul kan gi ⭐",
+              id: "annet",
+              icon: MoreHorizontal,
+              title: "Annet",
+              description: "Annen nyttig informasjon ⭐",
               delay: "1.0s"
             }
-          ].map((feature, index) => (
+          ].map((feature) => (
             <div
-              key={index}
-              className="glass-card rounded-2xl p-8 opacity-0 animate-fade-in hover:border-primary/40 transition-all duration-300 group"
+              key={feature.id}
+              onClick={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
+              className={`glass-card rounded-2xl p-8 opacity-0 animate-fade-in cursor-pointer transition-all duration-500 group
+                ${expandedCard === feature.id 
+                  ? 'md:col-span-3 border-primary/50 bg-primary/5' 
+                  : 'hover:border-primary/40'
+                }`}
               style={{ animationDelay: feature.delay }}
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                <feature.icon className="w-6 h-6 text-primary" />
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                    <feature.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-xl font-medium text-foreground mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+                <div className={`transition-transform duration-300 ${expandedCard === feature.id ? 'rotate-180' : ''}`}>
+                  {expandedCard === feature.id ? (
+                    <X className="w-5 h-5 text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                  )}
+                </div>
               </div>
-              <h3 className="font-display text-xl font-medium text-foreground mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {feature.description}
-              </p>
+              
+              {/* Expanded content */}
+              <div className={`overflow-hidden transition-all duration-500 ${
+                expandedCard === feature.id ? 'max-h-[800px] opacity-100 mt-8' : 'max-h-0 opacity-0'
+              }`}>
+                {feature.id === "faq" && (
+                  <div className="space-y-4">
+                    {faqItems.map((item, i) => (
+                      <div key={i} className="glass-card rounded-xl p-4 bg-background/50">
+                        <p className="text-primary font-medium mb-2">❓ {item.q}</p>
+                        <p className="text-foreground text-sm">{item.a}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {feature.id === "arkiv" && (
+                  <div>
+                    <p className="text-muted-foreground mb-4 text-sm">Minner fra julefeiringen i fjor:</p>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                      {archiveImages.map((emoji, i) => (
+                        <div 
+                          key={i} 
+                          className="aspect-square glass-card rounded-xl flex items-center justify-center text-3xl hover:scale-110 transition-transform cursor-pointer bg-background/30"
+                        >
+                          {emoji}
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-muted-foreground mt-4 text-xs text-center italic">
+                      Last opp ekte bilder ved å erstatte emoji-plassholderne 📷
+                    </p>
+                  </div>
+                )}
+                
+                {feature.id === "annet" && (
+                  <div className="space-y-4">
+                    <div className="glass-card rounded-xl p-4 bg-background/50">
+                      <p className="text-primary font-medium mb-2">🚗 Parkering</p>
+                      <p className="text-foreground text-sm">Det er plass til 4 biler i oppkjørselen. Flere kan parkere langs veien.</p>
+                    </div>
+                    <div className="glass-card rounded-xl p-4 bg-background/50">
+                      <p className="text-primary font-medium mb-2">🏠 Overnatting</p>
+                      <p className="text-foreground text-sm">Vi har plass til overnatting for de som ønsker det!</p>
+                    </div>
+                    <div className="glass-card rounded-xl p-4 bg-background/50">
+                      <p className="text-primary font-medium mb-2">📱 Kontakt</p>
+                      <p className="text-foreground text-sm">Ring eller send melding hvis du trenger noe!</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
