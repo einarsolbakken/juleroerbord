@@ -66,7 +66,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
               God Jul! 🎅
             </h1>
             <p className="text-muted-foreground text-xs sm:text-sm tracking-wide px-2">
-              Skriv inn tilgangskode for å se programmet til årets julebord
+              Skriv inn din tilgangskode for å se juleprogrammet
             </p>
           </div>
 
