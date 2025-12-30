@@ -9,7 +9,7 @@ interface ProtectedContentProps {
 
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const toggleMute = () => {
@@ -55,7 +55,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           ref={videoRef}
           autoPlay
           loop
-          muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
