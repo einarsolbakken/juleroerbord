@@ -59,7 +59,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           muted
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/videos/christmas-background.mp4" type="video/mp4" />
+          <source src={`${import.meta.env.BASE_URL}videos/christmas-background.mp4`} type="video/mp4" />
         </video>
         
         {/* Dark overlay for better text readability */}
