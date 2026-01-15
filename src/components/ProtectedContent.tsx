@@ -36,11 +36,18 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   };
 
   const faqItems = [
-    { q: "Når begynner julemiddagen?", a: "Julemiddagen serveres klokken 18:00. Husk å være sulten!" },
-    { q: "Hvem deler ut gaver?", a: "Den yngste i familien deler ut gaver, som vanlig!" },
-    { q: "Hva skal vi se på TV?", a: "Vi stemmer over julefilmen etter middagen." },
-    { q: "Er det glutenfrie alternativer?", a: "Ja! Vi har glutenfri dessert og tilbehør." },
-    { q: "Når er det greit å gå hjem?", a: "Feiringen varer så lenge vi har det gøy sammen!" },
+    { 
+      q: "Kommer jeg til å bli drita full?", 
+      a: "Ja, Med unntak av badstuepils og byen, er dette et All inclusive opplegg (muringsgaranti)." 
+    },
+    { 
+      q: "Hva om jeg har en eller annen allergi (som ikke sitter i huet..)?", 
+      a: "Det er selvfølgelig tatt hensyn til allergier for de det måtte gjelde." 
+    },
+    { 
+      q: "Når er det greit å dra hjem?",
+      a: "Det er greit å dra hjem om du:\n1. Blir kasta ut (så lenge du fyrer litt til vakta mens det skjer)\n2. Når lysene skrus på" 
+    },
   ];
 
   // Archive images from the party
@@ -266,7 +273,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                       {faqItems.map((item, i) => (
                         <div key={i} className="glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 bg-background/50">
                           <p className="text-primary font-medium mb-1 sm:mb-2 text-sm sm:text-base">❓ {item.q}</p>
-                          <p className="text-foreground text-xs sm:text-sm">{item.a}</p>
+                          <p className="text-foreground text-xs sm:text-sm whitespace-pre-line">{item.a}</p>
                         </div>
                       ))}
                     </div>
