@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
 import Snowfall from "./Snowfall";
+import archivePhoto from "@/assets/archive-photo.png";
 
 interface ProtectedContentProps {
   onLogout: () => void;
@@ -31,10 +32,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     { q: "Når er det greit å gå hjem?", a: "Feiringen varer så lenge vi har det gøy sammen!" },
   ];
 
-  const archiveImages = [
-    "🎄", "🎁", "🎅", "⛄", "🦌", "🌟", "🕯️", "🍪",
-    "❄️", "🔔", "🎀", "🧦", "🎿", "☃️", "🌲", "🍫"
-  ];
+  // Single archive image repeated
+  const archiveImages = Array(16).fill(archivePhoto);
 
   const timelineEvents = [
     { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR 💪", icon: "🏋️", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
@@ -267,18 +266,19 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     <div>
                       <p className="text-muted-foreground mb-3 sm:mb-4 text-xs sm:text-sm">Minner fra julefeiringen i fjor:</p>
                       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 sm:gap-3">
-                        {archiveImages.map((emoji, i) => (
+                        {archiveImages.map((imgSrc, i) => (
                           <div 
                             key={i} 
-                            className="aspect-square glass-card rounded-lg sm:rounded-xl flex items-center justify-center text-xl sm:text-3xl hover:scale-110 transition-transform cursor-pointer bg-background/30"
+                            className="aspect-square glass-card rounded-lg sm:rounded-xl overflow-hidden hover:scale-110 transition-transform cursor-pointer bg-background/30"
                           >
-                            {emoji}
+                            <img 
+                              src={imgSrc} 
+                              alt={`Arkivbilde ${i + 1}`}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                         ))}
                       </div>
-                      <p className="text-muted-foreground mt-3 sm:mt-4 text-xs text-center italic">
-                        Last opp ekte bilder ved å erstatte emoji-plassholderne 📷
-                      </p>
                     </div>
                   )}
                 </div>
