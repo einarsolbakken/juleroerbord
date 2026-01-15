@@ -2,7 +2,17 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
 import Snowfall from "./Snowfall";
-import archivePhoto from "@/assets/archive-photo.jpeg";
+import archive1 from "@/assets/archive-photo.jpeg";
+import archive2 from "@/assets/archive-1.jpg";
+import archive3 from "@/assets/archive-2.jpeg";
+import archive4 from "@/assets/archive-3.jpeg";
+import archive5 from "@/assets/archive-4.png";
+import archive6 from "@/assets/archive-5.jpg";
+import archive7 from "@/assets/archive-6.jpeg";
+import archive8 from "@/assets/archive-7.jpg";
+import archive9 from "@/assets/archive-8.jpg";
+import archive10 from "@/assets/archive-9.jpeg";
+import archive11 from "@/assets/archive-10.jpeg";
 
 interface ProtectedContentProps {
   onLogout: () => void;
@@ -32,8 +42,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     { q: "Når er det greit å gå hjem?", a: "Feiringen varer så lenge vi har det gøy sammen!" },
   ];
 
-  // Single archive image repeated
-  const archiveImages = Array(16).fill(archivePhoto);
+  // Archive images from the party
+  const archiveImages = [
+    archive1, archive2, archive3, archive4, archive5, archive6,
+    archive7, archive8, archive9, archive10, archive11
+  ];
 
   const timelineEvents = [
     { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR 💪", icon: "🏋️", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
@@ -260,7 +273,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                   
                   {feature.id === "arkiv" && (
                     <div>
-                      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 sm:gap-3">
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
                         {archiveImages.map((imgSrc, i) => (
                           <div
                             key={i} 
