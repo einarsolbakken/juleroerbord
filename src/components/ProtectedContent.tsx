@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
 import Snowfall from "./Snowfall";
-import julebordImage from "@/assets/julebord-skaal.jpeg";
 
 interface ProtectedContentProps {
   onLogout: () => void;
@@ -174,23 +173,17 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                       <div className="perspective-1000 w-full md:max-w-sm md:inline-block cursor-pointer">
                         <div className="flip-card relative w-full h-40 sm:h-48 transform-style-3d">
                           {/* Front of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl overflow-hidden backface-hidden">
-                            <img src={julebordImage} alt="Julebord" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-                            <div className="relative p-4 sm:p-6">
-                              <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{event.icon}</div>
-                              <div className="text-primary font-medium text-base sm:text-lg mb-1">{event.time}</div>
-                              <h3 className="font-display text-lg sm:text-xl text-foreground mb-1 sm:mb-2">{event.title}</h3>
-                              <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2">{event.description}</p>
-                            </div>
+                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 backface-hidden">
+                            <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{event.icon}</div>
+                            <div className="text-primary font-medium text-base sm:text-lg mb-1">{event.time}</div>
+                            <h3 className="font-display text-lg sm:text-xl text-foreground mb-1 sm:mb-2">{event.title}</h3>
+                            <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2">{event.description}</p>
                           </div>
                           {/* Back of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl overflow-hidden backface-hidden rotate-y-180 bg-primary/20 border-primary/40">
-                            <img src={julebordImage} alt="Julebord" className="absolute inset-0 w-full h-full object-cover opacity-20" />
-                            <div className="relative p-4 sm:p-6 flex flex-col justify-center h-full">
-                              <div className="text-xl sm:text-2xl mb-2 sm:mb-3 text-center">📋</div>
-                              <h4 className="font-display text-base sm:text-lg text-primary mb-1 sm:mb-2 text-center">Detaljer</h4>
-                              <p className="text-foreground text-xs sm:text-sm text-center leading-relaxed">{event.backInfo}</p>
-                            </div>
+                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 backface-hidden rotate-y-180 bg-primary/20 border-primary/40 flex flex-col justify-center">
+                            <div className="text-xl sm:text-2xl mb-2 sm:mb-3 text-center">📋</div>
+                            <h4 className="font-display text-base sm:text-lg text-primary mb-1 sm:mb-2 text-center">Detaljer</h4>
+                            <p className="text-foreground text-xs sm:text-sm text-center leading-relaxed">{event.backInfo}</p>
                           </div>
                         </div>
                       </div>
