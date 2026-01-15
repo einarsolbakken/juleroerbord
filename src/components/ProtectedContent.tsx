@@ -37,13 +37,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "10:00", title: "Julemorgen", description: "Våkne opp og åpne første gave! ☕", icon: "🌅", backInfo: "Start dagen med kaffe og juleboller mens barna åpner en liten gave hver." },
-    { time: "12:00", title: "Julelunsj", description: "Tradisjonell risgrøt med mandel 🍚", icon: "🍽️", backInfo: "Den som finner mandelen får marsipangris! Husk å sjekke at alle har fått smake." },
-    { time: "14:00", title: "Familietid", description: "Spill og moro med hele familien 🎲", icon: "👨‍👩‍👧‍👦", backInfo: "Yatzy-turnering og kortspill. Vinneren får velge første gave!" },
-    { time: "16:00", title: "Juleeventyr", description: "Les juleeventyr sammen ved peisen 📖", icon: "🔥", backInfo: "Snekker Andersen og Reisen til Julestjernen står på programmet." },
-    { time: "18:00", title: "Julemiddag", description: "Pinnekjøtt og alt tilbehør 🍖", icon: "🦌", backInfo: "Pinnekjøtt med kålrotstappe, poteter og saus. Dessert: Multekrem!" },
-    { time: "20:00", title: "Pakkeåpning", description: "Endelig tid for alle gavene! 🎁", icon: "🎄", backInfo: "Yngste deler ut gaver! Ta bilder av alle som åpner sine." },
-    { time: "22:00", title: "Kveldskos", description: "Julefilm og sjokolade 🍫", icon: "🎬", backInfo: "Alene hjemme eller Grevinnen og hovmesteren? Stem med håndsopprekking!" },
+    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR 💪", icon: "🏋️", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
+    { time: "13:15", title: "Badstue", description: "Sukkerbiten 🧖", icon: "🔥", backInfo: "Slapp av i badstuen på Sukkerbiten etter treningen." },
+    { time: "18:15", title: "Vors", description: "Krebs gate 🥂", icon: "🍾", backInfo: "Vi samles for vors i Krebs gate før vi drar videre." },
+    { time: "20:00", title: "Maxitaxi", description: "Transport til middag 🚕", icon: "🚖", backInfo: "Maxitaxi henter oss og kjører til Stortorvet." },
+    { time: "20:30", title: "Middag", description: "Stortorvet → BA3 🍽️", icon: "🎄", backInfo: "Julemiddag på Stortorvet, deretter videre til BA3!" },
   ];
 
   return (
