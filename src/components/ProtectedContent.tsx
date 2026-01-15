@@ -86,10 +86,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Hero Content */}
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center px-4 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm mb-4 sm:mb-6">
-              <Gift className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span>God Jul! 🎅</span>
-            </div>
             
             <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg">
               Velkommen til
@@ -145,7 +141,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           {/* Timeline section */}
           <div className="max-w-4xl mx-auto mb-12 sm:mb-20">
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-center text-foreground mb-8 sm:mb-12 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              Årets Juleprogram 🎄
+              Program
             </h2>
             
             <div className="relative">
@@ -203,7 +199,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                 id: "arkiv",
                 icon: Image,
                 title: "Arkiv",
-                description: "Bilder fra julefeiringen i fjor 📸",
+                description: "",
                 delay: "0.8s"
               },
               {
@@ -264,10 +260,9 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                   
                   {feature.id === "arkiv" && (
                     <div>
-                      <p className="text-muted-foreground mb-3 sm:mb-4 text-xs sm:text-sm">Minner fra julefeiringen i fjor:</p>
                       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 sm:gap-3">
                         {archiveImages.map((imgSrc, i) => (
-                          <div 
+                          <div
                             key={i} 
                             className="aspect-square glass-card rounded-lg sm:rounded-xl overflow-hidden hover:scale-110 transition-transform cursor-pointer bg-background/30"
                           >
@@ -288,23 +283,15 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
 
           {/* Stats section with Christmas theme */}
           <div className="mt-12 sm:mt-20 pt-12 sm:pt-20 border-t border-border/30">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto">
-              {[
-                { value: "🎁", label: "Gaver" },
-                { value: "🍪", label: "Pepperkaker" },
-                { value: "❤️", label: "Klemmer" },
-                { value: "✨", label: "Magiske øyeblikk" }
-              ].map((stat, index) => (
+            <div className="grid grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto">
+              {["🎁", "🍪", "❤️", "✨"].map((emoji, index) => (
                 <div 
                   key={index} 
                   className="text-center opacity-0 animate-fade-in"
                   style={{ animationDelay: `${1.1 + index * 0.1}s` }}
                 >
-                  <div className="text-3xl sm:text-5xl mb-2 sm:mb-3">
-                    {stat.value}
-                  </div>
-                  <div className="text-muted-foreground text-xs sm:text-sm tracking-wide uppercase">
-                    {stat.label}
+                  <div className="text-3xl sm:text-5xl">
+                    {emoji}
                   </div>
                 </div>
               ))}
@@ -315,9 +302,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Footer */}
         <footer className="relative z-10 border-t border-border/30 mt-12 sm:mt-20">
           <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 text-center">
-            <p className="text-muted-foreground/60 text-xs sm:text-sm">
-              🎄 God Jul og Godt Nyttår 2026! 🎅
-            </p>
           </div>
         </footer>
       </div>
