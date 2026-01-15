@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
 import Snowfall from "./Snowfall";
-import archivePhoto from "@/assets/archive-photo.png";
+import archivePhoto from "@/assets/archive-photo.jpeg";
 
 interface ProtectedContentProps {
   onLogout: () => void;
