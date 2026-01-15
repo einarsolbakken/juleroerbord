@@ -186,20 +186,18 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     
                     {/* Content card with flip effect */}
                     <div className={`flex-1 md:order-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                      <div className="perspective-1000 w-full md:max-w-sm md:inline-block cursor-pointer">
-                        <div className="flip-card relative w-full h-40 sm:h-48 transform-style-3d">
+                      <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer">
+                        <div className="flip-card relative w-full h-28 sm:h-32 transform-style-3d">
                           {/* Front of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 backface-hidden">
-                            <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{event.icon}</div>
-                            <div className="text-primary font-medium text-base sm:text-lg mb-1">{event.time}</div>
-                            <h3 className="font-display text-lg sm:text-xl text-foreground mb-1 sm:mb-2">{event.title}</h3>
-                            <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2">{event.description}</p>
+                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
+                            <div className="text-3xl sm:text-4xl mb-2">{event.icon}</div>
+                            <div className="text-primary font-bold text-xl sm:text-2xl">{event.time}</div>
+                            <h3 className="font-display text-sm sm:text-base text-foreground mt-1">{event.title}</h3>
                           </div>
                           {/* Back of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 backface-hidden rotate-y-180 bg-primary/20 border-primary/40 flex flex-col justify-center">
-                            <div className="text-xl sm:text-2xl mb-2 sm:mb-3 text-center">📋</div>
-                            <h4 className="font-display text-base sm:text-lg text-primary mb-1 sm:mb-2 text-center">Detaljer</h4>
-                            <p className="text-foreground text-xs sm:text-sm text-center leading-relaxed">{event.backInfo}</p>
+                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden rotate-y-180 bg-primary/20 border-primary/40 flex flex-col items-center justify-center text-center">
+                            <h4 className="font-display text-base sm:text-lg text-primary mb-2">{event.title}</h4>
+                            <p className="text-foreground text-xs sm:text-sm leading-relaxed">{event.description}</p>
                           </div>
                         </div>
                       </div>
