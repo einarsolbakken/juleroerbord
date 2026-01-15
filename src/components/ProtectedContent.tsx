@@ -13,6 +13,7 @@ import archive8 from "@/assets/archive-7.jpg";
 import archive9 from "@/assets/archive-8.jpg";
 import archive10 from "@/assets/archive-9.jpeg";
 import archive11 from "@/assets/archive-10.jpeg";
+import archive12 from "@/assets/archive-12.jpeg";
 
 interface ProtectedContentProps {
   onLogout: () => void;
@@ -45,7 +46,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   // Archive images from the party
   const archiveImages = [
     archive1, archive2, archive3, archive4, archive5, archive6,
-    archive7, archive8, archive9, archive10, archive11
+    archive7, archive8, archive9, archive10, archive11, archive12
   ];
 
   const timelineEvents = [
