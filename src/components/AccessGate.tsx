@@ -105,11 +105,11 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
             <motion.div
               className="relative"
               animate={isOpening ? {
-                scale: [1, 1.4, 0],
-                y: [0, -30, -80],
-                rotate: [0, -10, 10, 0],
+                scale: [1, 2.5, 3, 0],
+                y: [0, -60, -120, -200],
+                rotate: [0, -15, 15, 0],
               } : {
-                y: [0, -6, 0],
+                y: [0, -8, 0],
               }}
               transition={isOpening ? {
                 duration: 1,
@@ -121,17 +121,11 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                 ease: "easeInOut",
               }}
             >
-              <div className="absolute inset-0 bg-accent/30 rounded-full blur-xl animate-pulse" />
-              <div className="relative text-5xl sm:text-6xl">🎁</div>
+              <div className="absolute inset-0 bg-accent/30 rounded-full blur-2xl animate-pulse" />
+              <div className="relative text-7xl sm:text-8xl md:text-9xl">🎁</div>
             </motion.div>
           </div>
 
-          {/* Title */}
-          <div className="text-center mb-6 sm:mb-8">
-            <p className="text-muted-foreground text-xs sm:text-sm tracking-wide px-2">
-              Tilgangskode
-            </p>
-          </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
