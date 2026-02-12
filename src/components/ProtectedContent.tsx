@@ -106,7 +106,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
             
             <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg">
               Velkommen til
-              <span className="block text-primary drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">Jule<span className="text-white">roer</span>bord 🎄</span>
+              <span className="block text-white drop-shadow-lg">Jule<span className="text-primary drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">roer</span>bord 🎄</span>
             </h1>
             
             <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-8 drop-shadow-md">
