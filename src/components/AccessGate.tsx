@@ -9,7 +9,7 @@ interface AccessGateProps {
   onAccessGranted: () => void;
 }
 
-const ACCESS_CODE = "JUL2024";
+const ACCESS_CODE = "2026";
 
 const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
   const [code, setCode] = useState("");
@@ -135,7 +135,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
-                placeholder="• • • • • • • •"
+                placeholder="Tilgangskode"
                 className={`access-input h-12 sm:h-14 rounded-lg text-base ${error ? 'border-destructive focus:border-destructive focus:ring-destructive/50' : ''}`}
                 autoFocus
                 disabled={isOpening}
@@ -158,10 +158,6 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
             </Button>
           </form>
 
-          {/* Hint */}
-          <p className="text-center text-muted-foreground/60 text-xs mt-6 sm:mt-8 tracking-wide">
-            Hint: JUL2024 🎁
-          </p>
         </div>
 
         {/* Decorative corners */}
