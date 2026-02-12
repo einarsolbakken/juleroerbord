@@ -70,7 +70,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
             {Array.from({ length: 16 }).map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute z-40 text-lg sm:text-2xl"
+                className="absolute z-40 text-2xl sm:text-4xl"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{
                   x: (Math.random() - 0.5) * 500,
@@ -80,8 +80,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   rotate: Math.random() * 540 - 270,
                 }}
                 transition={{
-                  duration: 1.8,
-                  delay: 0.6 + Math.random() * 0.3,
+                  duration: 3,
+                  delay: 0.4 + Math.random() * 0.5,
                   ease: "easeOut",
                 }}
               >
