@@ -85,7 +85,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   ease: "easeOut",
                 }}
               >
-                {["✨", "⭐", "🌟", "❄️", "🎄", "🎅", "🔔", "🎀"][i % 8]}
+                {["🍺", "🚣", "🍺", "🚣", "🍺", "🚣", "🍺", "🚣"][i % 8]}
               </motion.div>
             ))}
           </>
@@ -98,15 +98,15 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
         animate={isOpening ? { scale: 0.85, opacity: 0, y: 60 } : {}}
         transition={{ duration: 0.8, delay: 1.2 }}
       >
-        <div className="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 border-primary/20 relative overflow-hidden">
+        <div className="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 border-primary/20 relative">
           
           {/* Gift icon with bounce */}
           <div className="flex justify-center mb-6 sm:mb-8">
             <motion.div
               className="relative"
               animate={isOpening ? {
-                scale: [1, 2, 2.5, 0],
-                y: [0, -10, -10, 0],
+                scale: [1, 2, 2.5, 3],
+                y: [0, -50, -150, -300],
                 rotate: [0, -10, 10, 0],
                 opacity: [1, 1, 1, 0],
               } : {
