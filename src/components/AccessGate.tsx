@@ -105,9 +105,10 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
             <motion.div
               className="relative"
               animate={isOpening ? {
-                scale: [1, 2.5, 3, 0],
-                y: [0, -60, -120, -200],
-                rotate: [0, -15, 15, 0],
+                scale: [1, 2, 2.5, 0],
+                y: [0, -10, -10, 0],
+                rotate: [0, -10, 10, 0],
+                opacity: [1, 1, 1, 0],
               } : {
                 y: [0, -8, 0],
               }}
