@@ -62,11 +62,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
 
           {/* Title */}
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium text-foreground mb-2 sm:mb-3">
-              God Jul! 🎅
-            </h1>
             <p className="text-muted-foreground text-xs sm:text-sm tracking-wide px-2">
-              Skriv inn din tilgangskode for å se juleprogrammet
+              Tilgangskode
             </p>
           </div>
 
@@ -95,8 +92,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
               className="btn-primary w-full h-11 sm:h-12 rounded-lg text-sm group"
               disabled={!code.trim()}
             >
-              <span>Åpne Julegaven</span>
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              <span>Åpne</span>
             </Button>
           </form>
 
