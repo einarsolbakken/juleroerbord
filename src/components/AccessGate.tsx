@@ -86,8 +86,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   animate={{
                     x: target.x,
                     y: target.y,
-                    opacity: [0, 1, 1, 1, 0],
-                    scale: [0, 1.8, 1.4, 1.2, 0.8],
+                    opacity: [0, 1, 1, 1, 1, 1, 0],
+                    scale: [0, 1.8, 1.5, 1.3, 1.2, 1.1, 0.8],
                   }}
                   transition={{
                     duration: 7,
