@@ -95,14 +95,11 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                     ease: "easeOut",
                   }}
                 >
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-white/40 rounded-full blur-xl scale-150" />
-                    <img 
-                      src={`${import.meta.env.BASE_URL}favicon.png`} 
-                      alt="" 
-                      className="relative w-24 h-24 sm:w-40 sm:h-40"
-                    />
-                  </div>
+                  <img 
+                    src={`${import.meta.env.BASE_URL}favicon.png`} 
+                    alt="" 
+                    className="w-24 h-24 sm:w-40 sm:h-40"
+                  />
                 </motion.div>
               );
             })}
