@@ -67,33 +67,36 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {Array.from({ length: 24 }).map((_, i) => {
-              const angle = (i / 24) * Math.PI * 2;
-              const distance = 250 + Math.random() * 300;
+            {Array.from({ length: 16 }).map((_, i) => {
+              const angle = (i / 16) * Math.PI * 2;
+              const distance = 300 + Math.random() * 200;
               return (
                 <motion.div
                   key={i}
-                  className="absolute z-40"
-                  style={{ left: '50%', top: '50%', marginLeft: -40, marginTop: -40 }}
+                  className="absolute z-40 flex items-center justify-center"
+                  style={{ left: '50%', top: '50%', marginLeft: -48, marginTop: -48 }}
                   initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
                   animate={{
                     x: Math.cos(angle) * distance,
-                    y: Math.sin(angle) * distance - 100,
-                    opacity: [0, 1, 1, 0.8, 0],
-                    scale: [0, 1.5, 1.2, 1, 0.6],
-                    rotate: Math.random() * 360 - 180,
+                    y: Math.sin(angle) * distance - 80,
+                    opacity: [0, 1, 1, 1, 0],
+                    scale: [0, 1.8, 1.4, 1.2, 0.8],
+                    rotate: Math.random() * 180 - 90,
                   }}
                   transition={{
                     duration: 5,
-                    delay: 0.3 + (i * 0.08),
+                    delay: 0.4 + (i * 0.1),
                     ease: "easeOut",
                   }}
                 >
-                  <img 
-                    src={`${import.meta.env.BASE_URL}favicon.png`} 
-                    alt="" 
-                    className="w-20 h-20 sm:w-32 sm:h-32 drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white/40 rounded-full blur-xl scale-150" />
+                    <img 
+                      src={`${import.meta.env.BASE_URL}favicon.png`} 
+                      alt="" 
+                      className="relative w-24 h-24 sm:w-40 sm:h-40"
+                    />
+                  </div>
                 </motion.div>
               );
             })}
