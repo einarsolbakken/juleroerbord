@@ -84,8 +84,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                     rotate: Math.random() * 180 - 90,
                   }}
                   transition={{
-                    duration: 5,
-                    delay: 0.4 + (i * 0.1),
+                    duration: 7,
+                    delay: 0.4 + (i * 0.15),
                     ease: "easeOut",
                   }}
                 >
