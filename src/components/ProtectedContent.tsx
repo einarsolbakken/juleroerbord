@@ -48,7 +48,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     },
     { 
       q: "Når er det greit å dra hjem?",
-      a: "Det er greit å dra hjem om du:\n1. Blir kasta ut (så lenge du fyrer litt til vakta mens det skjer)\n2. Når lysene skrus på" 
+      a: "1. Når du blir kasta ut (så lenge du fyrer litt til vakta mens det skjer)\n2. Når lysene skrus på" 
     },
   ];
 
@@ -243,7 +243,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                 id: "faq",
                 icon: HelpCircle,
                 title: "FAQ",
-                description: "Ofte stilte spørsmål om julefeiringen 🎄",
+                description: "",
                 delay: "0.9s"
               }
             ].map((feature) => (
