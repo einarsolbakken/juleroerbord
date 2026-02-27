@@ -68,8 +68,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
         {isOpening && (
           <>
             {Array.from({ length: 8 }).map((_, i) => {
-              const xDir = (Math.random() - 0.5) * 700;
-              const yDir = (Math.random() - 0.5) * 700;
+              const angle = (i / 8) * Math.PI * 2 + (Math.random() * 0.3 - 0.15);
+              const distance = 400 + Math.random() * 150;
               return (
                 <motion.div
                   key={i}
@@ -77,8 +77,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   style={{ left: '50%', top: '50%', marginLeft: -48, marginTop: -48 }}
                   initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
                   animate={{
-                    x: xDir,
-                    y: yDir,
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance,
                     opacity: [0, 1, 1, 1, 0],
                     scale: [0, 1.8, 1.4, 1.2, 0.8],
                   }}
