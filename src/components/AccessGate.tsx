@@ -81,7 +81,6 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                     y: Math.sin(angle) * distance - 80,
                     opacity: [0, 1, 1, 1, 0],
                     scale: [0, 1.8, 1.4, 1.2, 0.8],
-                    rotate: Math.random() * 180 - 90,
                   }}
                   transition={{
                     duration: 7,
