@@ -23,6 +23,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const toggleMute = () => {
@@ -203,8 +204,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     
                     {/* Content card with flip effect */}
                     <div className={`flex-1 md:order-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                      <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer">
-                        <div className="flip-card relative w-full h-28 sm:h-32 transform-style-3d">
+                      <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer" onClick={() => setFlippedCard(flippedCard === index ? null : index)}>
+                        <div className={`flip-card relative w-full h-28 sm:h-32 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
                           {/* Front of card */}
                           <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
                             <div className="text-3xl sm:text-4xl mb-2">{event.icon}</div>

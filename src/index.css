@@ -20,7 +20,7 @@
   transform: rotateY(180deg);
 }
 
-.flip-card:hover {
+.flip-card.flipped {
   transform: rotateY(180deg);
 }
 @tailwind components;
