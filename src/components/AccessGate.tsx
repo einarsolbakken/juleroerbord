@@ -67,42 +67,31 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {[
-              { x: -520, y: -120 },
-              { x: -420, y: -320 },
-              { x: -260, y: 280 },
-              { x: -80, y: -420 },
-              { x: 80, y: 420 },
-              { x: 260, y: -300 },
-              { x: 420, y: 300 },
-              { x: 520, y: -80 },
-            ].map((target, i) => {
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute z-40 flex items-center justify-center"
-                  style={{ left: '50%', top: '50%', marginLeft: -48, marginTop: -48 }}
-                  initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-                  animate={{
-                    x: target.x,
-                    y: target.y,
-                    opacity: [0, 1, 1, 1, 1, 1, 0],
-                    scale: [0, 1.8, 1.5, 1.3, 1.2, 1.1, 0.8],
-                  }}
-                  transition={{
-                    duration: 7,
-                    delay: 0.4,
-                    ease: "easeOut",
-                  }}
-                >
-                  <img 
-                    src={`${import.meta.env.BASE_URL}favicon.png`} 
-                    alt="" 
-                    className="w-24 h-24 sm:w-40 sm:h-40"
-                  />
-                </motion.div>
-              );
-            })}
+            {Array.from({ length: 30 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute z-40"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{
+                  x: (Math.random() - 0.5) * 600,
+                  y: (Math.random() - 0.5) * 600 - 150,
+                  opacity: [0, 1, 1, 0],
+                  scale: [0, 1.2, 1, 0],
+                  rotate: Math.random() * 540 - 270,
+                }}
+                transition={{
+                  duration: 3,
+                  delay: 0.3 + Math.random() * 0.6,
+                  ease: "easeOut",
+                }}
+              >
+                <img 
+                  src={`${import.meta.env.BASE_URL}favicon.png`} 
+                  alt="" 
+                  className="w-8 h-8 sm:w-12 sm:h-12"
+                />
+              </motion.div>
+            ))}
           </>
         )}
       </AnimatePresence>
