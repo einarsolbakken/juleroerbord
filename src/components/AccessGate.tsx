@@ -67,8 +67,8 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {Array.from({ length: 16 }).map((_, i) => {
-              const angle = (i / 16) * Math.PI * 2;
+            {Array.from({ length: 8 }).map((_, i) => {
+              const angle = (i / 8) * Math.PI * 2;
               const distance = 300 + Math.random() * 200;
               return (
                 <motion.div
