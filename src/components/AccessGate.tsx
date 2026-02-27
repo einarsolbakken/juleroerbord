@@ -88,7 +88,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                 <img 
                   src={`${import.meta.env.BASE_URL}favicon.png`} 
                   alt="" 
-                  className="w-14 h-14 sm:w-20 sm:h-20"
+                  className="w-20 h-20 sm:w-32 sm:h-32"
                 />
               </motion.div>
             ))}
