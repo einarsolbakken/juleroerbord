@@ -109,18 +109,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         
         {/* Header on video */}
         <header className="absolute top-0 left-0 right-0 z-20">
-          <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-end gap-2">
-            <button
-              onClick={toggleMute}
-              className="p-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 hover:text-white hover:bg-white/20 transition-all duration-300"
-              aria-label={isMuted ? "Slå på lyd" : "Slå av lyd"}
-            >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
-            </button>
+          <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-end">
             <Button
               variant="ghost"
               size="sm"
@@ -148,6 +137,18 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           </div>
         </div>
 
+        {/* Mute/Unmute button */}
+        <button
+          onClick={toggleMute}
+          className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20 p-3 sm:p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+          aria-label={isMuted ? "Slå på lyd" : "Slå av lyd"}
+        >
+          {isMuted ? (
+            <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" />
+          ) : (
+            <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          )}
+        </button>
 
         {/* Scroll indicator */}
         <button 
