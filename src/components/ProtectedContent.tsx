@@ -153,7 +153,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Scroll indicator */}
         <button 
           onClick={scrollToContent}
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 text-white/80 hover:text-white transition-colors animate-bounce"
+          className="absolute bottom-10 sm:bottom-14 inset-x-0 mx-auto w-fit z-20 text-white/80 hover:text-white transition-colors animate-bounce"
           aria-label="Scroll ned for å se programmet"
         >
           <div className="flex flex-col items-center gap-2">
