@@ -67,31 +67,36 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {Array.from({ length: 30 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute z-40"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{
-                  x: (Math.random() - 0.5) * 600,
-                  y: (Math.random() - 0.5) * 600 - 150,
-                  opacity: [0, 1, 1, 0],
-                  scale: [0, 1.2, 1, 0],
-                  rotate: Math.random() * 540 - 270,
-                }}
-                transition={{
-                  duration: 4.5,
-                  delay: 0.3 + Math.random() * 0.8,
-                  ease: "easeOut",
-                }}
-              >
-                <img 
-                  src={`${import.meta.env.BASE_URL}favicon.png`} 
-                  alt="" 
-                  className="w-20 h-20 sm:w-32 sm:h-32"
-                />
-              </motion.div>
-            ))}
+            {Array.from({ length: 24 }).map((_, i) => {
+              const angle = (i / 24) * Math.PI * 2;
+              const distance = 250 + Math.random() * 300;
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute z-40"
+                  style={{ left: '50%', top: '50%', marginLeft: -40, marginTop: -40 }}
+                  initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+                  animate={{
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance - 100,
+                    opacity: [0, 1, 1, 0.8, 0],
+                    scale: [0, 1.5, 1.2, 1, 0.6],
+                    rotate: Math.random() * 360 - 180,
+                  }}
+                  transition={{
+                    duration: 5,
+                    delay: 0.3 + (i * 0.08),
+                    ease: "easeOut",
+                  }}
+                >
+                  <img 
+                    src={`${import.meta.env.BASE_URL}favicon.png`} 
+                    alt="" 
+                    className="w-20 h-20 sm:w-32 sm:h-32 drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]"
+                  />
+                </motion.div>
+              );
+            })}
           </>
         )}
       </AnimatePresence>
