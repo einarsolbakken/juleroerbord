@@ -111,8 +111,15 @@
     @apply border-border;
   }
 
-  html, body {
-    @apply overflow-x-hidden;
+  html {
+    overflow: auto;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
     overscroll-behavior: none;
   }
 
