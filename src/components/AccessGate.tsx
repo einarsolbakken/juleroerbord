@@ -67,9 +67,16 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {Array.from({ length: 8 }).map((_, i) => {
-              const angle = (i / 8) * Math.PI * 2 + (Math.random() * 0.3 - 0.15);
-              const distance = 400 + Math.random() * 150;
+            {[
+              { x: -520, y: -120 },
+              { x: -420, y: -320 },
+              { x: -260, y: 280 },
+              { x: -80, y: -420 },
+              { x: 80, y: 420 },
+              { x: 260, y: -300 },
+              { x: 420, y: 300 },
+              { x: 520, y: -80 },
+            ].map((target, i) => {
               return (
                 <motion.div
                   key={i}
@@ -77,14 +84,14 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   style={{ left: '50%', top: '50%', marginLeft: -48, marginTop: -48 }}
                   initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
                   animate={{
-                    x: Math.cos(angle) * distance,
-                    y: Math.sin(angle) * distance,
+                    x: target.x,
+                    y: target.y,
                     opacity: [0, 1, 1, 1, 0],
                     scale: [0, 1.8, 1.4, 1.2, 0.8],
                   }}
                   transition={{
                     duration: 7,
-                    delay: 0.4 + (i * 0.15),
+                    delay: 0.4,
                     ease: "easeOut",
                   }}
                 >
