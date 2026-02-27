@@ -21,6 +21,7 @@ interface ProtectedContentProps {
 
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -150,16 +151,18 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         </button>
 
         {/* Scroll indicator */}
-        <button 
-          onClick={scrollToContent}
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 text-white/80 hover:text-white transition-colors animate-bounce"
-          aria-label="Scroll ned for å se programmet"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs sm:text-sm font-medium">Se programmet</span>
-            <ChevronDownCircle className="w-8 h-8 sm:w-10 sm:h-10" />
-          </div>
-        </button>
+        <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 z-20 flex justify-center">
+          <button 
+            onClick={scrollToContent}
+            className="text-white/80 hover:text-white transition-colors animate-bounce"
+            aria-label="Scroll ned for å se programmet"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-xs sm:text-sm font-medium">Se programmet</span>
+              <ChevronDownCircle className="w-8 h-8 sm:w-10 sm:h-10" />
+            </div>
+          </button>
+        </div>
       </section>
 
       {/* Main Content Section */}
@@ -203,8 +206,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     
                     {/* Content card with flip effect */}
                     <div className={`flex-1 md:order-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                      <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer">
-                        <div className="flip-card relative w-full h-28 sm:h-32 transform-style-3d">
+                      <div
+                        className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer"
+                        onClick={() => setFlippedCard(flippedCard === index ? null : index)}
+                      >
+                        <div className={`flip-card relative w-full h-28 sm:h-32 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
                           {/* Front of card */}
                           <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
                             <div className="text-3xl sm:text-4xl mb-2">{event.icon}</div>
