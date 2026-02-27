@@ -80,15 +80,15 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                   rotate: Math.random() * 540 - 270,
                 }}
                 transition={{
-                  duration: 3,
-                  delay: 0.3 + Math.random() * 0.6,
+                  duration: 4.5,
+                  delay: 0.3 + Math.random() * 0.8,
                   ease: "easeOut",
                 }}
               >
                 <img 
                   src={`${import.meta.env.BASE_URL}favicon.png`} 
                   alt="" 
-                  className="w-8 h-8 sm:w-12 sm:h-12"
+                  className="w-14 h-14 sm:w-20 sm:h-20"
                 />
               </motion.div>
             ))}
