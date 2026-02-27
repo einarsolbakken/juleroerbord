@@ -67,29 +67,25 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <AnimatePresence>
         {isOpening && (
           <>
-            {Array.from({ length: 30 }).map((_, i) => (
+            {Array.from({ length: 16 }).map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute z-40"
+                className="absolute z-40 text-2xl sm:text-4xl"
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{
-                  x: (Math.random() - 0.5) * 600,
-                  y: (Math.random() - 0.5) * 600 - 150,
+                  x: (Math.random() - 0.5) * 500,
+                  y: (Math.random() - 0.5) * 500 - 150,
                   opacity: [0, 1, 1, 0],
                   scale: [0, 1.2, 1, 0],
                   rotate: Math.random() * 540 - 270,
                 }}
                 transition={{
                   duration: 3,
-                  delay: 0.3 + Math.random() * 0.6,
+                  delay: 0.4 + Math.random() * 0.5,
                   ease: "easeOut",
                 }}
               >
-                <img 
-                  src={`${import.meta.env.BASE_URL}favicon.png`} 
-                  alt="" 
-                  className="w-8 h-8 sm:w-12 sm:h-12"
-                />
+                {["🍺", "🚣", "🍺", "🚣", "🍺", "🚣", "🍺", "🚣"][i % 8]}
               </motion.div>
             ))}
           </>
