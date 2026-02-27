@@ -19,6 +19,7 @@ interface ProtectedContentProps {
   onLogout: () => void;
 }
 
+// Juleroerbord 2026
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
