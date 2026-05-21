@@ -356,22 +356,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
             ))}
           </div>
 
-          {/* Stats section with Christmas theme */}
-          <div className="mt-12 sm:mt-20 pt-12 sm:pt-20 border-t border-border/30">
-            <div className="grid grid-cols-4 gap-4 sm:gap-8 max-w-4xl mx-auto">
-              {["🎁", "🍪", "❤️", "✨"].map((emoji, index) => (
-                <div 
-                  key={index} 
-                  className="text-center opacity-0 animate-fade-in"
-                  style={{ animationDelay: `${1.1 + index * 0.1}s` }}
-                >
-                  <div className="text-3xl sm:text-5xl">
-                    {emoji}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </main>
 
         {/* Footer */}
