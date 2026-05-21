@@ -139,8 +139,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           <source src={`${import.meta.env.BASE_URL}videos/christmas-background.mp4`} type="video/mp4" />
         </video>
         
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Darker gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         
         <Snowfall />
         
@@ -162,12 +162,14 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Hero Content */}
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center px-4 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            
-            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg">
-              Jule<span className="text-primary drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">roer</span>bord 2026 🎄
+            {/* Radial vignette behind text for extra contrast */}
+            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6)_0%,transparent_70%)] blur-2xl" />
+
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-4 sm:mb-6 leading-tight [text-shadow:0_4px_24px_rgba(0,0,0,0.85),0_2px_6px_rgba(0,0,0,0.9)]">
+              Jule<span className="text-primary [text-shadow:0_0_30px_rgba(220,38,38,0.7),0_4px_24px_rgba(0,0,0,0.85)]">roer</span>bord 2026 🎄
             </h1>
 
-            <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-8 drop-shadow-md">
+            <p className="text-white text-base sm:text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-8 [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">
               Lørdag 12. desember
             </p>
           </div>
