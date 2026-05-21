@@ -208,9 +208,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         <div className="absolute bottom-0 left-0 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-accent/10 rounded-full blur-[80px] md:blur-[100px]" />
         
         {/* Christmas decorations */}
-        <div className="absolute top-20 left-4 md:left-10 text-2xl md:text-3xl opacity-60 animate-pulse">✨</div>
-        <div className="absolute top-40 right-4 md:right-20 text-xl md:text-2xl opacity-50">🌟</div>
-        <div className="absolute bottom-40 left-4 md:left-20 text-xl md:text-2xl opacity-50 hidden sm:block">❄️</div>
 
         {/* Main content */}
         <main className="relative z-10 container mx-auto px-3 sm:px-4 py-12 sm:py-20 md:py-28">
