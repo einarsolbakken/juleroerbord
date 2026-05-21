@@ -139,8 +139,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           <source src={`${import.meta.env.BASE_URL}videos/christmas-background.mp4`} type="video/mp4" />
         </video>
         
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Darker gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         
         <Snowfall />
         
