@@ -164,12 +164,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           <div className="text-center px-4 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
             
             <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg">
-              Velkommen til
-              <span className="block text-white drop-shadow-lg">Jule<span className="text-primary drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">roer</span>bord 🎄</span>
+              Jule<span className="text-primary drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">roer</span>bord 2026 🎄
             </h1>
-            
+
             <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-8 drop-shadow-md">
-              Lørdag 12. desember 2026
+              Lørdag 12. desember
             </p>
           </div>
         </div>
