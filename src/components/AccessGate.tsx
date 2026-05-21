@@ -45,11 +45,6 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       
-      {/* Christmas decorations */}
-      <div className="absolute top-4 sm:top-8 left-4 sm:left-8 text-2xl sm:text-4xl opacity-80 animate-pulse">🎄</div>
-      <div className="absolute top-4 sm:top-8 right-4 sm:right-8 text-2xl sm:text-4xl opacity-80 animate-pulse" style={{ animationDelay: '0.5s' }}>🎅</div>
-      <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 text-xl sm:text-3xl opacity-70">🎁</div>
-      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 text-xl sm:text-3xl opacity-70">⭐</div>
 
       {/* White flash on open */}
       <AnimatePresence>
