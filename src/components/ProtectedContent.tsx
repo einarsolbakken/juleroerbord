@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
 import Snowfall from "./Snowfall";
@@ -26,6 +26,42 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    // Try to enable sound automatically; browsers may block this without user interaction
+    const tryUnmute = async () => {
+      try {
+        v.muted = false;
+        v.volume = 1;
+        await v.play();
+        setIsMuted(false);
+      } catch {
+        v.muted = true;
+        setIsMuted(true);
+      }
+    };
+    tryUnmute();
+
+    // Fallback: unmute on first user interaction
+    const onInteract = () => {
+      if (v.muted) {
+        v.muted = false;
+        v.volume = 1;
+        v.play().catch(() => {});
+        setIsMuted(false);
+      }
+      window.removeEventListener("pointerdown", onInteract);
+      window.removeEventListener("keydown", onInteract);
+    };
+    window.addEventListener("pointerdown", onInteract);
+    window.addEventListener("keydown", onInteract);
+    return () => {
+      window.removeEventListener("pointerdown", onInteract);
+      window.removeEventListener("keydown", onInteract);
+    };
+  }, []);
 
   const toggleMute = () => {
     if (videoRef.current) {
