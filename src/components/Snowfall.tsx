@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Snowflake {
   id: number;
@@ -9,20 +9,22 @@ interface Snowflake {
   delay: number;
 }
 
-const Snowfall = () => {
-  const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
+const createSnowflakes = (): Snowflake[] =>
+  Array.from({ length: 120 }, (_, i) => {
+    const animationDuration = 5 + Math.random() * 10;
 
-  useEffect(() => {
-    const flakes: Snowflake[] = Array.from({ length: 50 }, (_, i) => ({
+    return {
       id: i,
       left: Math.random() * 100,
-      animationDuration: 5 + Math.random() * 10,
+      animationDuration,
       opacity: 0.3 + Math.random() * 0.7,
       size: 4 + Math.random() * 8,
-      delay: Math.random() * 5,
-    }));
-    setSnowflakes(flakes);
-  }, []);
+      delay: -(Math.random() * animationDuration),
+    };
+  });
+
+const Snowfall = () => {
+  const [snowflakes] = useState(createSnowflakes);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
@@ -32,6 +34,7 @@ const Snowfall = () => {
           className="absolute text-white animate-snowfall"
           style={{
             left: `${flake.left}%`,
+            top: 0,
             animationDuration: `${flake.animationDuration}s`,
             opacity: flake.opacity,
             fontSize: `${flake.size}px`,

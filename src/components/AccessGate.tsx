@@ -139,7 +139,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
               {error && (
                 <div className="flex items-center justify-center gap-2 text-destructive text-xs sm:text-sm animate-fade-in">
                   <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Feil kode! Prøv igjen 🎅</span>
+                  <span>Feil kode! Meld deg på for faen</span>
                 </div>
               )}
             </div>

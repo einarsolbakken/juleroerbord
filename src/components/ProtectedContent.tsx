@@ -119,9 +119,9 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
-    { time: "13:15", title: "Badstue", description: "Sukkerbiten", icon: "🍾", backInfo: "Slapp av i badstuen på Sukkerbiten etter treningen." },
-    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Vi samles for vors i Krebs gate før vi drar videre." },
+    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
+    { time: "13:15", title: "Badstue", description: "Sukkerbiten", icon: "🍾", backInfo: "Vi tar felles transport direkte fra trening til badstuen. Ta med deg noen pils hit om ønskelig 🍻. " },
+    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og MYE alkohol (Ikke ta med egen drikke)." },
     { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Maxitaxi henter oss og kjører til Stortorvet." },
     { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "Julemiddag på Stortorvet, deretter videre til BA3!" },
   ];
@@ -264,16 +264,16 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     {/* Content card with flip effect */}
                     <div className={`flex-1 md:order-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                       <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer" onClick={() => setFlippedCard(flippedCard === index ? null : index)}>
-                        <div className={`flip-card relative w-full h-28 sm:h-32 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
+                        <div className={`flip-card relative w-full h-40 sm:h-44 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
                           {/* Front of card */}
                           <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
-                            <div className="text-primary font-bold text-xl sm:text-2xl">{event.time}</div>
-                            <h3 className="font-display text-sm sm:text-base text-foreground mt-1">{event.title}</h3>
+                            <div className="text-primary font-bold text-2xl sm:text-3xl">{event.time}</div>
+                            <h3 className="font-display text-base sm:text-lg text-foreground mt-1">{event.title}</h3>
                           </div>
                           {/* Back of card */}
                           <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden rotate-y-180 bg-primary/20 border-primary/40 flex flex-col items-center justify-center text-center">
-                            <h4 className="font-display text-base sm:text-lg text-primary mb-2">{event.title}</h4>
-                            <p className="text-foreground text-xs sm:text-sm leading-relaxed">{event.description}</p>
+                            <h4 className="font-display text-2xl sm:text-3xl font-semibold text-primary mb-2">{event.title}</h4>
+                            <p className="text-foreground text-xs sm:text-sm leading-relaxed">{event.backInfo}</p>
                           </div>
                         </div>
                       </div>
