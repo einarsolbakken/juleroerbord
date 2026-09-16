@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle } from "lucide-react";
+import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle, ExternalLink } from "lucide-react";
 import Snowfall from "./Snowfall";
 import archive1 from "@/assets/archive-photo.jpeg";
 import archive2 from "@/assets/archive-1.jpg";
@@ -26,6 +26,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const muteButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -45,8 +46,10 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     tryUnmute();
 
     // Fallback: unmute on first user interaction
-    const onInteract = () => {
-      if (v.muted) {
+    const onInteract = (event: Event) => {
+      const isMuteControl = event.target instanceof Node && muteButtonRef.current?.contains(event.target);
+
+      if (!isMuteControl && v.muted) {
         v.muted = false;
         v.volume = 1;
         v.play().catch(() => {});
@@ -63,11 +66,26 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!expandedCard) return;
+
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById(`feature-${expandedCard}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 550);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [expandedCard]);
+
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(!isMuted);
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    setIsMuted(nextMuted);
   };
 
   const scrollToContent = () => {
@@ -87,6 +105,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       q: "Når er det greit å dra hjem?",
       a: "1. Når du blir kasta ut (så lenge du fyrer litt til vakta mens det skjer)\n2. Når lysene skrus på" 
     },
+    {
+      q: "Hva med drikkesanger?",
+      a: "Selvfølgelig! Her finner du sangheftet fra i fjor:",
+      link: { label: "Sanghefte 2025 (PDF)", href: "/sanghefte.pdf" },
+    },
   ];
 
   // Archive images from the party
@@ -96,11 +119,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR 💪", icon: "🏋️", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
-    { time: "13:15", title: "Badstue", description: "Sukkerbiten 🧖", icon: "🔥", backInfo: "Slapp av i badstuen på Sukkerbiten etter treningen." },
-    { time: "18:15", title: "Vors", description: "Krebs gate 🥂", icon: "🍾", backInfo: "Vi samles for vors i Krebs gate før vi drar videre." },
-    { time: "20:00", title: "Maxitaxi", description: "Transport til middag 🚕", icon: "🚖", backInfo: "Maxitaxi henter oss og kjører til Stortorvet." },
-    { time: "20:30", title: "Middag", description: "Stortorvet → BA3 🍽️", icon: "🎄", backInfo: "Julemiddag på Stortorvet, deretter videre til BA3!" },
+    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Start dagen med en treningsøkt på romaskin. Velg mellom NSR eller CR." },
+    { time: "13:15", title: "Badstue", description: "Sukkerbiten", icon: "🍾", backInfo: "Slapp av i badstuen på Sukkerbiten etter treningen." },
+    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Vi samles for vors i Krebs gate før vi drar videre." },
+    { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Maxitaxi henter oss og kjører til Stortorvet." },
+    { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "Julemiddag på Stortorvet, deretter videre til BA3!" },
   ];
 
   return (
@@ -177,6 +200,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
 
         {/* Mute/Unmute button */}
         <button
+          ref={muteButtonRef}
           onClick={toggleMute}
           className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20 p-3 sm:p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
           aria-label={isMuted ? "Slå på lyd" : "Slå av lyd"}
@@ -243,7 +267,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                         <div className={`flip-card relative w-full h-28 sm:h-32 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
                           {/* Front of card */}
                           <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
-                            <div className="text-3xl sm:text-4xl mb-2">{event.icon}</div>
                             <div className="text-primary font-bold text-xl sm:text-2xl">{event.time}</div>
                             <h3 className="font-display text-sm sm:text-base text-foreground mt-1">{event.title}</h3>
                           </div>
@@ -270,7 +293,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
               {
                 id: "arkiv",
                 icon: Image,
-                title: "Arkiv",
+                title: "Høydepunkter fra i fjor",
                 description: "",
                 delay: "0.8s"
               },
@@ -284,8 +307,9 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
             ].map((feature) => (
               <div
                 key={feature.id}
+                id={`feature-${feature.id}`}
                 onClick={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
-                className={`glass-card rounded-xl sm:rounded-2xl p-5 sm:p-8 opacity-0 animate-fade-in cursor-pointer transition-all duration-500 group
+                className={`glass-card scroll-mt-4 rounded-xl sm:rounded-2xl p-5 sm:p-8 opacity-0 animate-fade-in cursor-pointer transition-all duration-500 group
                   ${expandedCard === feature.id 
                     ? 'sm:col-span-2 border-primary/50 bg-primary/5' 
                     : 'hover:border-primary/40'
@@ -325,6 +349,18 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                         <div key={i} className="glass-card rounded-lg sm:rounded-xl p-3 sm:p-4 bg-background/50">
                           <p className="text-primary font-medium mb-1 sm:mb-2 text-sm sm:text-base">❓ {item.q}</p>
                           <p className="text-foreground text-xs sm:text-sm whitespace-pre-line">{item.a}</p>
+                          {item.link && (
+                            <a
+                              href={item.link.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1 mt-2 text-primary text-xs sm:text-sm underline underline-offset-4 hover:text-primary/80 transition-colors"
+                            >
+                              {item.link.label}
+                              <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                            </a>
+                          )}
                         </div>
                       ))}
                     </div>
