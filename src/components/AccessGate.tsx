@@ -131,7 +131,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 placeholder="Tilgangskode"
-                className={`access-input h-12 sm:h-14 rounded-lg text-base ${error ? 'border-destructive focus:border-destructive focus:ring-destructive/50' : ''}`}
+                className={`access-input focus:placeholder-transparent h-12 sm:h-14 rounded-lg text-base ${error ? 'border-destructive focus:border-destructive focus:ring-destructive/50' : ''}`}
                 autoFocus
                 disabled={isOpening}
               />
