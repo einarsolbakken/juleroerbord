@@ -23,37 +23,63 @@ interface ProtectedContentProps {
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const muteButtonRef = useRef<HTMLButtonElement>(null);
+  const userMutedVideoRef = useRef(false);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    // Try to enable sound automatically; browsers may block this without user interaction
+
+    let isMounted = true;
+
     const tryUnmute = async () => {
+      if (userMutedVideoRef.current) return;
+
       try {
         v.muted = false;
         v.volume = 1;
         await v.play();
+        if (!isMounted || userMutedVideoRef.current) {
+          v.muted = true;
+          return;
+        }
         setIsMuted(false);
       } catch {
         v.muted = true;
-        setIsMuted(true);
+        if (isMounted) setIsMuted(true);
       }
     };
-    tryUnmute();
+
+    // Start muted after the video has buffered enough to play. This avoids
+    // racing the browser's autoplay policy before the media is ready.
+    const startVideo = async () => {
+      v.muted = true;
+      try {
+        await v.play();
+        if (isMounted) void tryUnmute();
+      } catch {
+        // Playback can still be blocked by the browser. The interaction
+        // fallback below will retry it after the user interacts with the page.
+      }
+    };
+
+    const onCanPlay = () => void startVideo();
+    v.addEventListener("canplay", onCanPlay);
+
+    if (v.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      void startVideo();
+    }
 
     // Fallback: unmute on first user interaction
     const onInteract = (event: Event) => {
       const isMuteControl = event.target instanceof Node && muteButtonRef.current?.contains(event.target);
 
       if (!isMuteControl && v.muted) {
-        v.muted = false;
-        v.volume = 1;
-        v.play().catch(() => {});
-        setIsMuted(false);
+        void tryUnmute();
       }
       window.removeEventListener("pointerdown", onInteract);
       window.removeEventListener("keydown", onInteract);
@@ -61,6 +87,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     window.addEventListener("pointerdown", onInteract);
     window.addEventListener("keydown", onInteract);
     return () => {
+      isMounted = false;
+      v.removeEventListener("canplay", onCanPlay);
       window.removeEventListener("pointerdown", onInteract);
       window.removeEventListener("keydown", onInteract);
     };
@@ -84,8 +112,20 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     if (!video) return;
 
     const nextMuted = !video.muted;
+    userMutedVideoRef.current = nextMuted;
     video.muted = nextMuted;
     setIsMuted(nextMuted);
+
+    if (!nextMuted) {
+      video.volume = 1;
+      if (video.paused) {
+        video.play().catch(() => {
+          video.muted = true;
+          userMutedVideoRef.current = true;
+          setIsMuted(true);
+        });
+      }
+    }
   };
 
   const scrollToContent = () => {
@@ -149,7 +189,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         </div>
       )}
       {/* Video Hero Section - Full Screen */}
-      <section className="h-screen relative overflow-hidden">
+      <section className="h-screen relative overflow-hidden bg-black">
         {/* Video Background */}
         <video
           ref={videoRef}
@@ -157,7 +197,11 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           loop
           playsInline
           muted
-          className="absolute inset-0 w-full h-full object-cover"
+          preload="auto"
+          onCanPlay={() => setIsVideoReady(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-out will-change-[opacity] ${
+            isVideoReady ? "opacity-100" : "opacity-0"
+          }`}
         >
           <source src={`${import.meta.env.BASE_URL}videos/christmas-background.mp4`} type="video/mp4" />
         </video>
