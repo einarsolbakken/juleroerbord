@@ -19,7 +19,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (code.toUpperCase() === ACCESS_CODE) {
       localStorage.setItem("access_granted", "true");
       setIsOpening(true);
@@ -37,14 +37,14 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <Snowfall />
-      
+
       {/* Background effects */}
       <div className="absolute inset-0 gradient-festive" />
       <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] bg-primary/10 rounded-full blur-[100px] sm:blur-[150px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] sm:w-[500px] sm:h-[500px] bg-accent/10 rounded-full blur-[80px] sm:blur-[120px]" />
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-      
+
 
       {/* White flash on open */}
       <AnimatePresence>
@@ -94,7 +94,7 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
         transition={{ duration: 0.8, delay: 1.2 }}
       >
         <div className="glass-card rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 border-primary/20 relative">
-          
+
           {/* Gift icon with bounce */}
           <div className="flex justify-center mb-6 sm:mb-8">
             <motion.div
@@ -135,11 +135,11 @@ const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
                 autoFocus
                 disabled={isOpening}
               />
-              
+
               {error && (
                 <div className="flex items-center justify-center gap-2 text-destructive text-xs sm:text-sm animate-fade-in">
                   <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Feil kode! Meld deg på for faen</span>
+                  <span>Feil kode! Smør deg med litt tålmodighet</span>
                 </div>
               )}
             </div>
