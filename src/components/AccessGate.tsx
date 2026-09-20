@@ -9,7 +9,7 @@ interface AccessGateProps {
   onAccessGranted: () => void;
 }
 
-const ACCESS_CODE = "julegris";
+const ACCESS_CODE = "JULEGRIS";
 
 const AccessGate = ({ onAccessGranted }: AccessGateProps) => {
   const [code, setCode] = useState("");

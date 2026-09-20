@@ -160,10 +160,10 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
 
   const timelineEvents = [
     { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
-    { time: "13:15", title: "Badstue", description: "Sukkerbiten", icon: "🍾", backInfo: "Vi tar felles transport direkte fra trening til badstuen. Ta med deg noen pils hit om ønskelig 🍻. " },
+    { time: "13:15", title: "TBD", description: "TBD", icon: "🍾", backInfo: "Vi tar felles transport direkte fra trening til TBD. Ta med deg noen pils hit om ønskelig 🍻. " },
     { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og MYE alkohol (Ikke ta med egen drikke)." },
-    { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Maxitaxi henter oss og kjører til Stortorvet." },
-    { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "Julemiddag på Stortorvet, deretter videre til BA3!" },
+    { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "TBD" },
+    { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "TBD" },
   ];
 
   return (
