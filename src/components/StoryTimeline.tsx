@@ -119,25 +119,29 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 />
               ))}
 
-              {/* One red buoy per side at every stop */}
-              {events.map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute buoy-stop"
-                  style={{ top: `${stopPos(i)}%`, left: "2%", transform: "translate(-50%, -50%)" }}
-                >
-                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
-                </div>
-              ))}
-              {events.map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute buoy-stop"
-                  style={{ top: `${stopPos(i)}%`, left: "98%", transform: "translate(-50%, -50%)" }}
-                >
-                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
-                </div>
-              ))}
+              {/* Two colored buoys on each side of every lane at every stop */}
+              {dividers.map((x, d) =>
+                events.map((_, i) => (
+                  <div
+                    key={`${d}-${i}`}
+                    className="absolute buoy-stop"
+                    style={{ top: `${stopPos(i)}%`, left: `${x}%`, transform: "translate(-50%, -50%)" }}
+                  >
+                    <div className="flex gap-1 sm:gap-1.5">
+                      <div
+                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shadow-[0_0_6px_rgba(0,0,0,0.4)] ${
+                          i % 2 === 0 ? "bg-primary" : "bg-accent"
+                        }`}
+                      />
+                      <div
+                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shadow-[0_0_6px_rgba(0,0,0,0.4)] ${
+                          i % 2 === 0 ? "bg-accent" : "bg-primary"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                ))
+              )}
 
               {/* Start and finish */}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
@@ -175,16 +179,6 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
               })}
             </div>
 
-            {/* Centre stop markers */}
-            {events.map((_, i) => (
-              <div
-                key={i}
-                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ top: `${stopPos(i)}%` }}
-              >
-                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary border-2 border-foreground/80 shadow-[0_0_10px_rgba(0,0,0,0.35)]" />
-              </div>
-            ))}
           </div>
 
           {/* Cards */}
