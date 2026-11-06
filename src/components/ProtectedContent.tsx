@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle, ExternalLink } from "lucide-react";
 import Snowfall from "./Snowfall";
+import StoryTimeline from "./StoryTimeline";
 import archive1 from "@/assets/archive-photo.jpeg";
 import archive2 from "@/assets/archive-1.jpg";
 import archive3 from "@/assets/archive-2.jpeg";
@@ -25,7 +26,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [isMuted, setIsMuted] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const muteButtonRef = useRef<HTMLButtonElement>(null);
   const userMutedVideoRef = useRef(false);
@@ -270,7 +270,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       </section>
 
       {/* Main Content Section */}
-      <div id="content" className="min-h-screen relative overflow-hidden">
+      <div id="content" className="min-h-screen relative overflow-x-clip">
         {/* Background effects */}
         <div className="absolute inset-0 gradient-festive" />
         <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 rounded-full blur-[100px] md:blur-[150px]" />
@@ -279,58 +279,10 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Christmas decorations */}
 
         {/* Main content */}
-        <main className="relative z-10 container mx-auto px-3 sm:px-4 py-12 sm:py-20 md:py-28">
-          {/* Timeline section */}
-          <div className="max-w-4xl mx-auto mb-12 sm:mb-20">
-            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-center text-foreground mb-8 sm:mb-12 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              Program
-            </h2>
-            
-            <div className="relative">
-              {/* Vertical line - left on mobile, center on desktop */}
-              <div className="absolute left-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 w-0.5 sm:w-1 h-full bg-gradient-to-b from-primary via-accent to-primary rounded-full" />
-              
-              {/* Timeline events */}
-              <div className="space-y-6 sm:space-y-8 md:space-y-12">
-                {timelineEvents.map((event, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-start sm:items-center gap-4 sm:gap-6 md:gap-8 opacity-0 animate-fade-in ${
-                      index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                    }`}
-                    style={{ animationDelay: `${0.4 + index * 0.1}s` }}
-                  >
-                    {/* Center dot - left aligned on mobile */}
-                    <div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-card border-3 sm:border-4 border-primary flex items-center justify-center shadow-christmas flex-shrink-0 md:order-2 md:mx-0">
-                      <span className="text-lg sm:text-xl">{event.icon}</span>
-                    </div>
-                    
-                    {/* Content card with flip effect */}
-                    <div className={`flex-1 md:order-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                      <div className="perspective-1000 w-full md:max-w-xs md:inline-block cursor-pointer" onClick={() => setFlippedCard(flippedCard === index ? null : index)}>
-                        <div className={`flip-card relative w-full h-40 sm:h-44 transform-style-3d ${flippedCard === index ? 'flipped' : ''}`}>
-                          {/* Front of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden flex flex-col items-center justify-center text-center">
-                            <div className="text-primary font-bold text-2xl sm:text-3xl">{event.time}</div>
-                            <h3 className="font-display text-base sm:text-lg text-foreground mt-1">{event.title}</h3>
-                          </div>
-                          {/* Back of card */}
-                          <div className="absolute inset-0 glass-card rounded-xl sm:rounded-2xl p-4 sm:p-5 backface-hidden rotate-y-180 bg-primary/20 border-primary/40 flex flex-col items-center justify-center text-center">
-                            <h4 className="font-display text-2xl sm:text-3xl font-semibold text-primary mb-2">{event.title}</h4>
-                            <p className="text-foreground text-xs sm:text-sm leading-relaxed">{event.backInfo}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Spacer for alternating layout - desktop only */}
-                    <div className="flex-1 hidden md:block md:order-3" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
+        <main className="relative z-10 container mx-auto px-3 sm:px-4">
+          </main>
+          <StoryTimeline events={timelineEvents} />
+          <main className="relative z-10 container mx-auto px-3 sm:px-4 pb-12 sm:pb-20">
           {/* Feature cards */}
           <div className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
             {[
