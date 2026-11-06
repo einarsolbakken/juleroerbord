@@ -270,7 +270,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       </section>
 
       {/* Main Content Section */}
-      <div id="content" className="min-h-screen relative overflow-hidden">
+      <div id="content" className="min-h-screen relative overflow-x-clip">
         {/* Background effects */}
         <div className="absolute inset-0 gradient-festive" />
         <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 rounded-full blur-[100px] md:blur-[150px]" />
@@ -279,7 +279,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Christmas decorations */}
 
         {/* Main content */}
-        <main className="relative z-10 container mx-auto px-3 sm:px-4 py-12 sm:py-20 md:py-28">
+        <main className="relative z-10 container mx-auto px-3 sm:px-4">
           </main>
           <StoryTimeline events={timelineEvents} />
           <main className="relative z-10 container mx-auto px-3 sm:px-4 pb-12 sm:pb-20">
