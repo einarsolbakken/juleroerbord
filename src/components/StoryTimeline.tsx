@@ -74,7 +74,14 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   // Exactly one red buoy per side at every stop; white buoys fill the rest of the line.
   // Each white line gets a hole at every stop so no white buoy peeks out behind a red one.
   const pitch = typeof window !== "undefined" && window.innerWidth >= 640 ? 28 : DOT_PITCH;
-  const HOLE = riverH > 0 ? ((pitch / 2 + 2) / riverH) * 100 : 1.2;
+  // Snap each stop onto the white buoy grid so the red buoy replaces exactly one white buoy
+  const snapPos = (pct: number) => {
+    if (!riverH) return pct;
+    const y = (pct / 100) * riverH;
+    const k = Math.round((y - pitch / 2) / pitch);
+    return ((k * pitch + pitch / 2) / riverH) * 100;
+  };
+  const HOLE = riverH > 0 ? ((pitch / 2) / riverH) * 100 : 1.2;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
     const push = (pos: number, color: string) => {
@@ -88,7 +95,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       stops.push([p, color]);
     };
     events.forEach((_, i) => {
-      const p = stopPos(i);
+      const p = snapPos(stopPos(i));
       push(p - HOLE, "black");
       push(p, "transparent");
       push(p + HOLE, "black");
@@ -125,9 +132,9 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 dividers.map((x, b) => (
                   <div
                     key={`${i}-${b}`}
-                    className="absolute buoy-stop w-[5px] h-[5px] sm:w-2 sm:h-2 rounded-full bg-primary"
+                    className="absolute buoy-stop w-[5.2px] h-[5.2px] sm:w-2 sm:h-2 rounded-full bg-primary"
                     style={{
-                      top: `${stopPos(i)}%`,
+                      top: `${snapPos(stopPos(i))}%`,
                       left: `${x}%`,
                       transform: "translate(-50%, -50%)",
                     }}
