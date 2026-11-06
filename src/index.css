@@ -220,9 +220,10 @@
 .buoy-gold { background: hsl(var(--gold)); box-shadow: 0 0 8px hsl(var(--gold) / 0.7); }
 .firework-particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 9999px;
+  box-shadow: 0 0 8px currentColor, 0 0 4px hsl(var(--gold) / 0.8);
   animation: firework-particle 1.6s ease-out infinite;
 }
 @keyframes firework-particle {
