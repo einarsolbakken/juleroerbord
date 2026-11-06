@@ -137,12 +137,15 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 />
               ))}
 
-              {/* At every stop, the white buoy in each lane line is replaced by a red one */}
+              {/* At every stop, the white buoy in each lane line is replaced by a red one.
+                  The final stop (Byen) gets gold buoys instead. */}
               {events.map((_, i) =>
                 dividers.map((x, b) => (
                   <div
                     key={`${i}-${b}`}
-                    className="absolute buoy-stop w-[5.2px] h-[5.2px] sm:w-2 sm:h-2 rounded-full bg-primary"
+                    className={`absolute buoy-stop w-[5.2px] h-[5.2px] sm:w-2 sm:h-2 rounded-full ${
+                      i === n - 1 ? "buoy-gold" : "bg-primary"
+                    }`}
                     style={{
                       top: `${snapPos(stopPos(i))}%`,
                       left: `${x}%`,
@@ -155,6 +158,30 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
               {/* Start and finish */}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
+
+              {/* Fireworks when the boats reach the finish */}
+              {atGoal && (
+                <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none z-40" aria-hidden>
+                  {BURSTS.map((b, bi) => (
+                    <div key={bi} className="absolute" style={{ left: `${b.x}%`, top: `${b.y}%` }}>
+                      {Array.from({ length: PARTICLES }).map((_, pi) => (
+                        <span
+                          key={pi}
+                          className="firework-particle"
+                          style={
+                            {
+                              "--a": `${(360 / PARTICLES) * pi}deg`,
+                              "--d": `${b.r}px`,
+                              background: b.c,
+                              animationDelay: `${b.delay}s`,
+                            } as CSSProperties
+                          }
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Boats */}
               {boats.map((y, L) => {
