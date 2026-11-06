@@ -8,49 +8,72 @@ export interface StoryEvent {
 }
 
 const DOT_PITCH = 20; // px vertical spacing between buoys (matches .buoy-line)
+const LANES = 6;
+const GAP = 8.5; // % of track height between boats in the pack
+const PAD = 5; // % padding at both ends of the track
+
+const laneCenters = Array.from({ length: LANES }, (_, L) => ((L + 0.5) / LANES) * 100);
+const dividers = Array.from({ length: LANES - 1 }, (_, i) => ((i + 1) / LANES) * 100);
 
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const riverRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [riverH, setRiverH] = useState(0);
+  const [boats, setBoats] = useState<number[]>(() => Array(LANES).fill(8));
+  const boatsRef = useRef<number[]>(Array(LANES).fill(8));
   const n = events.length;
 
   useEffect(() => {
     let raf = 0;
-    const update = () => {
-      raf = 0;
+    let alive = true;
+
+    const loop = () => {
+      if (!alive) return;
       const el = wrapRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-      setProgress(p);
-      const h = riverRef.current?.getBoundingClientRect().height ?? 0;
-      setRiverH(h);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+        setProgress((prev) => (Math.abs(prev - p) > 0.0005 ? p : prev));
+
+        const h = riverRef.current?.getBoundingClientRect().height ?? 0;
+        if (h) setRiverH((prev) => (Math.abs(prev - h) > 0.5 ? h : prev));
+
+        const act = Math.min(n - 1, Math.floor(p * n)) % LANES;
+        const boatPos = 8 + p * 84;
+        const spread = Math.min(1, p * 2.5);
+        const cur = boatsRef.current;
+        let maxDelta = 0;
+        for (let L = 0; L < LANES; L++) {
+          const rank = (act - L + LANES) % LANES;
+          const target = Math.min(
+            100 - PAD,
+            Math.max(PAD, boatPos - rank * GAP * spread)
+          );
+          maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
+          cur[L] += (target - cur[L]) * 0.14;
+        }
+        if (maxDelta > 0.01) setBoats(cur.slice());
+      }
+      raf = requestAnimationFrame(loop);
     };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+
+    raf = requestAnimationFrame(loop);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
+      alive = false;
+      cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [n]);
 
   const active = Math.min(n - 1, Math.floor(progress * n));
-  // Stops placed evenly on the river; boat glides between them
+  const leaderLane = active % LANES;
+  // Stops placed evenly on the track; boats glide between them
   const stopPos = (i: number) => (n === 1 ? 50 : 8 + (i / (n - 1)) * 84);
-  const boatPos = 8 + progress * 84;
-  const sway = 0;
 
-  // Exactly one red buoy per lane at every stop; white buoys fill the rest of the lane.
-  // The white line gets a one-buoy-wide hole at each stop so no white buoy peeks out.
-  const HOLE = riverH > 0 ? ((DOT_PITCH / 2 + 2) / riverH) * 100 : 1.4;
+  // Exactly one red buoy per side at every stop; white buoys fill the rest of the line.
+  // Each white line gets a hole at every stop so no white buoy peeks out behind a red one.
+  const HOLE = riverH > 0 ? ((DOT_PITCH / 2 + 8) / riverH) * 100 : 1.8;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
     const push = (pos: number, color: string) => {
@@ -77,46 +100,91 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   return (
     <div ref={wrapRef} style={{ height: `${n * 90 + 40}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
-        <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-10 sm:py-14">
-          {/* River */}
-          <div className="relative w-24 sm:w-32 flex-shrink-0">
-            <div ref={riverRef} className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
+        <div className="flex-1 flex items-stretch gap-3 sm:gap-10 max-w-6xl w-full mx-auto px-4 py-10 sm:py-14">
+          {/* Regatta course */}
+          <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
+            <div
+              ref={riverRef}
+              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden"
+              aria-hidden
+            >
               <div className="absolute inset-0 river-ripples regatta-ripples" />
-              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
-              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
+
+              {/* Lane dividers */}
+              {dividers.map((x, i) => (
+                <div
+                  key={i}
+                  className="absolute inset-y-0 w-2 sm:w-3 -translate-x-1/2 buoy-line"
+                  style={{ left: `${x}%`, ...mask(whiteLaneMask) }}
+                />
+              ))}
+
+              {/* One red buoy per side at every stop */}
               {events.map((_, i) => (
-                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "25%", transform: "translate(-50%, -50%)" }}>
-                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                <div
+                  key={i}
+                  className="absolute buoy-stop"
+                  style={{ top: `${stopPos(i)}%`, left: "2%", transform: "translate(-50%, -50%)" }}
+                >
+                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
                 </div>
               ))}
               {events.map((_, i) => (
-                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "75%", transform: "translate(-50%, -50%)" }}>
-                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                <div
+                  key={i}
+                  className="absolute buoy-stop"
+                  style={{ top: `${stopPos(i)}%`, left: "98%", transform: "translate(-50%, -50%)" }}
+                >
+                  <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
                 </div>
               ))}
+
+              {/* Start and finish */}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
+
+              {/* Boats */}
+              {boats.map((y, L) => {
+                const leader = L === leaderLane;
+                return (
+                  <div
+                    key={L}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ top: `${y}%`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
+                  >
+                    <div
+                      className={`relative transition-all duration-700 ease-out ${
+                        leader ? "opacity-100" : "opacity-60"
+                      }`}
+                    >
+                      {leader && (
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
+                      )}
+                      <span
+                        className={`block leading-none ${
+                          leader
+                            ? "text-3xl sm:text-5xl drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                            : "text-xl sm:text-3xl"
+                        }`}
+                      >
+                        🚣
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            {events.map((e, i) => (
+
+            {/* Centre stop markers */}
+            {events.map((_, i) => (
               <div
                 key={i}
-                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center"
+                className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{ top: `${stopPos(i)}%` }}
               >
-                <div
-                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary border-2 border-foreground/80 shadow-[0_0_10px_rgba(0,0,0,0.35)]"
-                />
+                <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary border-2 border-foreground/80 shadow-[0_0_10px_rgba(0,0,0,0.35)]" />
               </div>
             ))}
-            <div
-              className="absolute left-1/2 text-3xl sm:text-5xl z-10 drop-shadow-lg pointer-events-none"
-              style={{
-                top: `${boatPos}%`,
-                transform: `translate(calc(-50% + ${sway}px), -50%) rotate(${sway * 1.5}deg)`,
-              }}
-            >
-              🚣
-            </div>
           </div>
 
           {/* Cards */}
