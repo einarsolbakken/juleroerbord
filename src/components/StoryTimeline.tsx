@@ -119,27 +119,18 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 />
               ))}
 
-              {/* Two colored buoys on each side of every lane at every stop */}
-              {dividers.map((x, d) =>
-                events.map((_, i) => (
+              {/* A row of 8 red buoys across the course at every stop */}
+              {events.map((_, i) =>
+                Array.from({ length: 8 }, (_, b) => (
                   <div
-                    key={`${d}-${i}`}
-                    className="absolute buoy-stop"
-                    style={{ top: `${stopPos(i)}%`, left: `${x}%`, transform: "translate(-50%, -50%)" }}
-                  >
-                    <div className="flex gap-1 sm:gap-1.5">
-                      <div
-                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shadow-[0_0_6px_rgba(0,0,0,0.4)] ${
-                          i % 2 === 0 ? "bg-primary" : "bg-accent"
-                        }`}
-                      />
-                      <div
-                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full shadow-[0_0_6px_rgba(0,0,0,0.4)] ${
-                          i % 2 === 0 ? "bg-accent" : "bg-primary"
-                        }`}
-                      />
-                    </div>
-                  </div>
+                    key={`${i}-${b}`}
+                    className="absolute buoy-stop w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]"
+                    style={{
+                      top: `${stopPos(i)}%`,
+                      left: `${((b + 0.5) / 8) * 100}%`,
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
                 ))
               )}
 
