@@ -62,9 +62,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 style={{ top: `${stopPos(i)}%` }}
               >
                 <div
-                  className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 transition-all duration-500 ${
-                    i <= active ? "bg-primary border-primary scale-125" : "bg-card border-muted-foreground/50"
-                  }`}
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary border-2 border-foreground/80 shadow-[0_0_10px_rgba(0,0,0,0.35)]"
                 />
               </div>
             ))}
