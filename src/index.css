@@ -200,6 +200,10 @@
 }
 @keyframes river-flow { from { background-position: 0 0; } to { background-position: 0 68px, 0 54px; } }
 
-:root { --water-deep: 205 45% 16%; --water-mid: 200 40% 26%; --foam: 195 40% 80%; --water-bank: 150 20% 35%; }
-.river-ripples { animation: ripple-flow 6s linear infinite; }
-@keyframes ripple-flow { from { transform: translateY(-40px); } to { transform: translateY(0); } }
+:root { --water-deep: 205 45% 18%; --water-mid: 200 40% 28%; --foam: 195 40% 80%; }
+.regatta-water { background: linear-gradient(90deg, hsl(var(--water-deep)), hsl(var(--water-mid)) 50%, hsl(var(--water-deep))); }
+.regatta-ripples { background-image: repeating-linear-gradient(180deg, transparent 0 26px, hsl(var(--foam) / 0.08) 26px 28px); inset: -40px 0 0 0; }
+.river-ripples { animation: ripple-flow 4s linear infinite; }
+@keyframes ripple-flow { from { transform: translateY(0); } to { transform: translateY(28px); } }
+.buoy-line { background-image: radial-gradient(circle, hsl(var(--primary)) 0 3px, transparent 3.5px), radial-gradient(circle, hsl(var(--foreground)) 0 3px, transparent 3.5px); background-size: 8px 36px; background-position: center 0, center 18px; background-repeat: repeat-y; }
+.regatta-finish { background: repeating-linear-gradient(90deg, hsl(var(--foreground)) 0 6px, hsl(var(--background)) 6px 12px); }
