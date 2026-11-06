@@ -7,6 +7,10 @@ export interface StoryEvent {
   backInfo: string;
 }
 
+// Organic river shape with wavy banks
+const RIVER =
+  "M 30 0 C 15 120, 40 220, 25 340 S 15 560, 30 680 S 18 880, 28 1000 L 74 1000 C 86 880, 70 780, 80 660 S 88 440, 72 320 S 84 110, 70 0 Z";
+
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -52,10 +56,23 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-6 sm:py-10">
           {/* River */}
           <div className="relative w-16 sm:w-24 flex-shrink-0">
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 rounded-full river-water overflow-hidden">
-              <div className="absolute inset-0 river-waves" />
-              <div className="absolute inset-0 river-shimmer" />
-            </div>
+            <svg className="absolute inset-y-0 left-1/2 -translate-x-1/2 h-full w-20 sm:w-28" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden>
+              <defs>
+                <linearGradient id="water" x1="0" x2="1">
+                  <stop offset="0" stopColor="hsl(var(--water-deep))" />
+                  <stop offset="0.5" stopColor="hsl(var(--water-mid))" />
+                  <stop offset="1" stopColor="hsl(var(--water-deep))" />
+                </linearGradient>
+                <clipPath id="riverClip"><path d={RIVER} /></clipPath>
+              </defs>
+              <path d={RIVER} fill="url(#water)" />
+              <g clipPath="url(#riverClip)" className="river-ripples">
+                {Array.from({ length: 28 }).map((_, k) => (
+                  <path key={k} d={`M ${20 + (k * 37) % 45} ${k * 40} q 8 -5 16 0 t 16 0`} fill="none" stroke="hsl(var(--foam) / 0.35)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+                ))}
+              </g>
+              <path d={RIVER} fill="none" stroke="hsl(var(--water-bank) / 0.6)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+            </svg>
             {events.map((e, i) => (
               <div
                 key={i}

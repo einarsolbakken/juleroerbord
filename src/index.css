@@ -200,18 +200,6 @@
 }
 @keyframes river-flow { from { background-position: 0 0; } to { background-position: 0 68px, 0 54px; } }
 
-:root { --water-deep: 205 70% 22%; --water-light: 195 75% 45%; --foam: 190 80% 85%; }
-.river-water {
-  background: linear-gradient(90deg, hsl(var(--water-deep)), hsl(var(--water-light)) 50%, hsl(var(--water-deep)));
-  box-shadow: inset 0 0 12px hsl(var(--water-deep)), 0 0 24px hsl(var(--water-light) / 0.35);
-}
-.river-waves {
-  background-image: radial-gradient(ellipse 60% 6px at 50% 50%, hsl(var(--foam) / 0.45), transparent 70%);
-  background-size: 100% 34px;
-  animation: river-flow 3s linear infinite;
-}
-.river-shimmer {
-  background-image: radial-gradient(ellipse 30% 4px at 30% 50%, hsl(var(--foam) / 0.3), transparent 70%), radial-gradient(ellipse 25% 3px at 72% 50%, hsl(var(--foam) / 0.3), transparent 70%);
-  background-size: 100% 22px, 100% 27px;
-  animation: river-flow 1.8s linear infinite;
-}
+:root { --water-deep: 205 45% 16%; --water-mid: 200 40% 26%; --foam: 195 40% 80%; --water-bank: 150 20% 35%; }
+.river-ripples { animation: ripple-flow 6s linear infinite; }
+@keyframes ripple-flow { from { transform: translateY(-40px); } to { transform: translateY(0); } }
