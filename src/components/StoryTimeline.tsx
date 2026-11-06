@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 export interface StoryEvent {
   time: string;
@@ -14,6 +14,15 @@ const PAD = 5; // % padding at both ends of the track
 
 const laneCenters = Array.from({ length: LANES }, (_, L) => ((L + 0.5) / LANES) * 100);
 const dividers = Array.from({ length: LANES - 1 }, (_, i) => ((i + 1) / LANES) * 100);
+
+// Firework bursts shown when the boats cross the finish line
+const BURSTS = [
+  { x: 22, y: 18, r: 36, c: "hsl(45 95% 55%)", delay: 0 },
+  { x: 72, y: 34, r: 30, c: "hsl(0 72% 55%)", delay: 0.45 },
+  { x: 46, y: 8, r: 32, c: "hsl(0 0% 100%)", delay: 0.9 },
+  { x: 60, y: 55, r: 26, c: "hsl(45 95% 55%)", delay: 1.3 },
+];
+const PARTICLES = 12;
 
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -68,6 +77,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
 
   const active = Math.min(n - 1, Math.floor(progress * n));
   const leaderLane = active % LANES;
+  const atGoal = progress > 0.96;
   // Stops placed evenly on the track; boats glide between them
   const stopPos = (i: number) => (n === 1 ? 50 : 8 + (i / (n - 1)) * 84);
 
@@ -81,6 +91,13 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     const k = Math.round((y - pitch / 2) / pitch);
     return ((k * pitch + pitch / 2) / riverH) * 100;
   };
+  // The very last buoy row in the grid — where the gold finish buoys sit
+  const lastRowPos = (() => {
+    if (!riverH) return 96;
+    const kMax = Math.floor((riverH - pitch / 2) / pitch);
+    return ((kMax * pitch + pitch / 2) / riverH) * 100;
+  })();
+  const buoyRowPos = (i: number) => (i === n - 1 ? lastRowPos : snapPos(stopPos(i)));
   const HOLE = riverH > 0 ? ((pitch / 2) / riverH) * 100 : 1.2;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
@@ -95,7 +112,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       stops.push([p, color]);
     };
     events.forEach((_, i) => {
-      const p = snapPos(stopPos(i));
+      const p = buoyRowPos(i);
       push(p - HOLE, "black");
       push(p, "transparent");
       push(p + HOLE, "black");
@@ -113,7 +130,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
             <div
               ref={riverRef}
-              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden"
+              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden water-fade"
               aria-hidden
             >
               <div className="absolute inset-0 river-ripples regatta-ripples" />
@@ -127,14 +144,17 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 />
               ))}
 
-              {/* At every stop, the white buoy in each lane line is replaced by a red one */}
+              {/* At every stop, the white buoy in each lane line is replaced by a red one.
+                  The final stop (Byen) gets gold buoys instead. */}
               {events.map((_, i) =>
                 dividers.map((x, b) => (
                   <div
                     key={`${i}-${b}`}
-                    className="absolute buoy-stop w-[5.2px] h-[5.2px] sm:w-2 sm:h-2 rounded-full bg-primary"
+                    className={`absolute buoy-stop w-[5.2px] h-[5.2px] sm:w-2 sm:h-2 rounded-full ${
+                      i === n - 1 ? "buoy-gold" : "bg-primary"
+                    }`}
                     style={{
-                      top: `${snapPos(stopPos(i))}%`,
+                      top: `${buoyRowPos(i)}%`,
                       left: `${x}%`,
                       transform: "translate(-50%, -50%)",
                     }}
@@ -145,6 +165,30 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
               {/* Start and finish */}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
+
+              {/* Fireworks when the boats reach the finish */}
+              {atGoal && (
+                <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none z-40" aria-hidden>
+                  {BURSTS.map((b, bi) => (
+                    <div key={bi} className="absolute" style={{ left: `${b.x}%`, top: `${b.y}%` }}>
+                      {Array.from({ length: PARTICLES }).map((_, pi) => (
+                        <span
+                          key={pi}
+                          className="firework-particle"
+                          style={
+                            {
+                              "--a": `${(360 / PARTICLES) * pi}deg`,
+                              "--d": `${b.r}px`,
+                              background: b.c,
+                              animationDelay: `${b.delay}s`,
+                            } as CSSProperties
+                          }
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Boats */}
               {boats.map((y, L) => {

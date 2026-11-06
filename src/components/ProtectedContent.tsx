@@ -165,6 +165,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og MYE alkohol (Ikke ta med egen drikke)." },
     { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "TBD" },
     { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "TBD" },
+    { time: "23:00", title: "Byen", description: "Final destination", icon: "🎆", backInfo: "Båtene er i mål! Kvelden avsluttes ute på byen. Her gjelder det å holde seg flytende helt til lysene skrus på." },
   ];
 
   return (
