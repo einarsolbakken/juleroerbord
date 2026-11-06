@@ -120,24 +120,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           </div>
 
           {/* Cards */}
-          <div className="relative flex-1 flex flex-col justify-center">
-            <div className="flex flex-wrap gap-2 mb-6">
-              {events.map((e, i) => (
-                <span
-                  key={i}
-                  className={`text-xs sm:text-sm px-2.5 py-1 rounded-full border transition-all duration-500 ${
-                    i === active
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : i < active
-                      ? "border-primary/40 text-foreground/70"
-                      : "border-border text-muted-foreground"
-                  }`}
-                >
-                  {e.time}
-                </span>
-              ))}
-            </div>
-
+          <div className="relative flex-1 flex flex-col justify-center pb-24 sm:pb-32">
             <div className="relative h-80 sm:h-96">
               {events.map((e, i) => (
                 <div
@@ -157,10 +140,6 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   <p className="text-foreground/90 font-display text-lg sm:text-2xl leading-snug max-w-xl">{e.backInfo}</p>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-6 text-xs sm:text-sm text-muted-foreground">
-              {active + 1} / {n}
             </div>
           </div>
         </div>
