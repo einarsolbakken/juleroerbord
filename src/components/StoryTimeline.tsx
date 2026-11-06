@@ -52,8 +52,9 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-6 sm:py-10">
           {/* River */}
           <div className="relative w-16 sm:w-24 flex-shrink-0">
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-10 sm:w-14 rounded-full bg-gradient-to-b from-accent/30 via-accent/20 to-accent/30 border border-accent/30 overflow-hidden">
-              <div className="absolute inset-0 river-flow" />
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 rounded-full river-water overflow-hidden">
+              <div className="absolute inset-0 river-waves" />
+              <div className="absolute inset-0 river-shimmer" />
             </div>
             {events.map((e, i) => (
               <div
@@ -98,11 +99,11 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
               ))}
             </div>
 
-            <div className="relative h-64 sm:h-72">
+            <div className="relative h-80 sm:h-96">
               {events.map((e, i) => (
                 <div
                   key={i}
-                  className="absolute inset-0 glass-card rounded-2xl p-5 sm:p-8 flex flex-col justify-center transition-all duration-700 ease-out"
+                  className="absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-out"
                   style={{
                     opacity: i === active ? 1 : 0,
                     transform: `translateY(${(i - active) * 40}px) scale(${i === active ? 1 : 0.95})`,
@@ -110,10 +111,11 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   }}
                   aria-hidden={i !== active}
                 >
-                  <div className="text-primary font-bold text-4xl sm:text-5xl md:text-6xl">{e.time}</div>
-                  <h3 className="font-display text-2xl sm:text-3xl text-foreground mt-2">{e.title}</h3>
-                  <p className="text-muted-foreground text-sm sm:text-base mt-1">{e.description}</p>
-                  <p className="text-foreground text-sm sm:text-base leading-relaxed mt-4">{e.backInfo}</p>
+                  <div className="text-primary font-display italic text-xl sm:text-2xl tracking-wide">{e.time}</div>
+                  <h3 className="font-display text-4xl sm:text-6xl md:text-7xl text-foreground leading-none mt-1">{e.title}</h3>
+                  <p className="text-muted-foreground uppercase tracking-[0.2em] text-xs sm:text-sm mt-3">{e.description}</p>
+                  <div className="w-12 h-px bg-primary/60 my-5" />
+                  <p className="text-foreground/90 font-display text-lg sm:text-2xl leading-snug max-w-xl">{e.backInfo}</p>
                 </div>
               ))}
             </div>
