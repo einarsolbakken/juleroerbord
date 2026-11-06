@@ -15,6 +15,15 @@ const PAD = 5; // % padding at both ends of the track
 const laneCenters = Array.from({ length: LANES }, (_, L) => ((L + 0.5) / LANES) * 100);
 const dividers = Array.from({ length: LANES - 1 }, (_, i) => ((i + 1) / LANES) * 100);
 
+// Firework bursts shown when the boats cross the finish line
+const BURSTS = [
+  { x: 22, y: 18, r: 36, c: "hsl(45 95% 55%)", delay: 0 },
+  { x: 72, y: 34, r: 30, c: "hsl(0 72% 55%)", delay: 0.45 },
+  { x: 46, y: 8, r: 32, c: "hsl(0 0% 100%)", delay: 0.9 },
+  { x: 60, y: 55, r: 26, c: "hsl(45 95% 55%)", delay: 1.3 },
+];
+const PARTICLES = 12;
+
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const riverRef = useRef<HTMLDivElement>(null);
@@ -68,6 +77,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
 
   const active = Math.min(n - 1, Math.floor(progress * n));
   const leaderLane = active % LANES;
+  const atGoal = progress > 0.96;
   // Stops placed evenly on the track; boats glide between them
   const stopPos = (i: number) => (n === 1 ? 50 : 8 + (i / (n - 1)) * 84);
 
