@@ -9,7 +9,7 @@ export interface StoryEvent {
 
 const DOT_PITCH = 20; // px vertical spacing between buoys (matches .buoy-line)
 const LANES = 6;
-const GAP = 8.5; // % of track height between boats in the pack
+const SPREAD_AMP = 3.8; // % of track height: max offset from the pack centre
 const PAD = 5; // % padding at both ends of the track
 
 const laneCenters = Array.from({ length: LANES }, (_, L) => ((L + 0.5) / LANES) * 100);
@@ -50,17 +50,22 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         if (h) setRiverH((prev) => (Math.abs(prev - h) > 0.5 ? h : prev));
 
         const boatPos = 8 + p * 84;
-        // Boats row in line until the 3rd stop, then small gradual position changes
+        // Boats row in line until the 3rd stop, then the field spreads out
+        // steadily and keeps growing all the way to the finish line.
         const startP = n > 2 ? 2 / (n - 1) : 0;
-        const spread = Math.min(1, Math.max(0, (p - startP) / 0.15));
+        const t = Math.min(1, Math.max(0, (p - startP) / (1 - startP)));
         const cur = boatsRef.current;
         let maxDelta = 0;
         for (let L = 0; L < LANES; L++) {
-          const drift =
-            Math.sin(p * 7 + L * 1.9) * 1.6 + Math.sin(p * 3.3 + L * 2.7) * 1.0;
+          // Evenly spaced phases: the field rotates slowly, so the lead changes hands
+          const phase = Math.PI * 2.2 * p + (L / LANES) * Math.PI * 2;
+          const pattern =
+            Math.sin(phase) +
+            Math.sin(p * 6.5 + L * 2.1) * 0.14 +
+            (L - (LANES - 1) / 2) * 0.06;
           const target = Math.min(
             100 - PAD,
-            Math.max(PAD, boatPos + drift * spread * (GAP / 8.5))
+            Math.max(PAD, boatPos + pattern * SPREAD_AMP * t)
           );
           maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
           cur[L] += (target - cur[L]) * 0.08;
