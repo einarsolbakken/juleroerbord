@@ -30,8 +30,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const [progress, setProgress] = useState(0);
   const [riverH, setRiverH] = useState(0);
   const [boats, setBoats] = useState<number[]>(() => Array(LANES).fill(8));
+  const [, setVw] = useState(0);
   const boatsRef = useRef<number[]>(Array(LANES).fill(8));
   const n = events.length;
+  const rangeRef = useRef<[number, number]>([8, 92]);
 
   useEffect(() => {
     let raf = 0;
@@ -49,7 +51,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         const h = riverRef.current?.getBoundingClientRect().height ?? 0;
         if (h) setRiverH((prev) => (Math.abs(prev - h) > 0.5 ? h : prev));
 
-        const boatPos = 8 + p * 84;
+        const [r0, r1] = rangeRef.current;
+        const boatPos = r0 + p * (r1 - r0);
         // Boats row in line until the 3rd stop, then the field spreads out
         // steadily and keeps growing all the way to the finish line.
         const startP = n > 2 ? 2 / (n - 1) : 0;
@@ -76,7 +79,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     };
 
     raf = requestAnimationFrame(loop);
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
     return () => {
+      window.removeEventListener("resize", onResize);
       alive = false;
       cancelAnimationFrame(raf);
     };
@@ -103,10 +109,14 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   // The very last buoy row in the grid — where the gold finish buoys sit
   const lastRowPos = (() => {
     if (!riverH) return 96;
-    const kMax = Math.floor((riverH - pitch / 2) / pitch);
+    // One row above the very bottom so it stays clear of the finish line and fade
+    const kMax = Math.floor((riverH - pitch / 2) / pitch) - 1;
     return ((kMax * pitch + pitch / 2) / riverH) * 100;
   })();
-  const buoyRowPos = (i: number) => (i === n - 1 ? lastRowPos : snapPos(stopPos(i)));
+  const firstRowPos = riverH ? ((pitch + pitch / 2) / riverH) * 100 : 8;
+  const buoyRowPos = (i: number) =>
+    i === n - 1 ? lastRowPos : i === 0 ? firstRowPos : snapPos(stopPos(i));
+  rangeRef.current = [firstRowPos, lastRowPos];
   const HOLE = riverH > 0 ? ((pitch / 2) / riverH) * 100 : 1.2;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
