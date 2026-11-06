@@ -193,3 +193,9 @@
     @apply bg-card/40 backdrop-blur-xl border border-border/30 shadow-subtle;
   }
 }
+
+.river-flow {
+  background-image: repeating-linear-gradient(180deg, transparent 0 18px, hsl(var(--foreground) / 0.12) 18px 20px);
+  animation: river-flow 2.5s linear infinite;
+}
+@keyframes river-flow { from { background-position: 0 0; } to { background-position: 0 40px; } }
