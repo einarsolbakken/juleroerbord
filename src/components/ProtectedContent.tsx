@@ -159,6 +159,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
+    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en legendarisk dag. Spis en god frokost, drikk vann og finn fram Norge-drakta." },
     { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
     { time: "13:15", title: "TBD", description: "TBD", icon: "🍾", backInfo: "Vi tar felles transport direkte fra trening til TBD. Ta med deg noen pils hit om ønskelig 🍻. " },
     { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og MYE alkohol (Ikke ta med egen drikke)." },
