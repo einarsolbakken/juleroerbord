@@ -202,8 +202,14 @@
 
 :root { --water-deep: 205 45% 18%; --water-mid: 200 40% 28%; --foam: 195 40% 80%; }
 .regatta-water { background: linear-gradient(90deg, hsl(var(--water-deep)), hsl(var(--water-mid)) 50%, hsl(var(--water-deep))); }
-.regatta-ripples { background-image: repeating-linear-gradient(180deg, transparent 0 26px, hsl(var(--foam) / 0.08) 26px 28px); inset: -40px 0 0 0; }
-.river-ripples { animation: ripple-flow 4s linear infinite; }
-@keyframes ripple-flow { from { transform: translateY(0); } to { transform: translateY(28px); } }
-.buoy-line { background-image: radial-gradient(circle, hsl(var(--foreground)) 0 3px, transparent 3.5px); background-size: 8px 36px; background-position: center 0; background-repeat: repeat-y; }
+.regatta-ripples {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='70' viewBox='0 0 140 70'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M0 18 Q17.5 9 35 18 T70 18 T105 18 T140 18' stroke='rgba(205,238,246,0.22)' stroke-width='1.7'/%3E%3Cpath d='M0 42 Q17.5 51 35 42 T70 42 T105 42 T140 42' stroke='rgba(205,238,246,0.15)' stroke-width='1.4'/%3E%3Cpath d='M0 60 Q17.5 55 35 60 T70 60 T105 60 T140 60' stroke='rgba(205,238,246,0.10)' stroke-width='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 140px 70px;
+  background-repeat: repeat;
+  inset: -80px 0 0 0;
+}
+.river-ripples { animation: ripple-flow 5s linear infinite; }
+@keyframes ripple-flow { from { transform: translateY(0); } to { transform: translateY(70px); } }
+.buoy-line { background-image: radial-gradient(circle, hsl(var(--foreground)) 0 2.6px, transparent 3.2px); background-size: 8px 20px; background-position: center 0; background-repeat: repeat-y; }
+.buoy-line-red { background-image: radial-gradient(circle, hsl(var(--primary)) 0 3.6px, transparent 4.2px); background-size: 8px 20px; background-position: center 0; background-repeat: repeat-y; }
 .regatta-finish { background: repeating-linear-gradient(90deg, hsl(var(--foreground)) 0 6px, hsl(var(--background)) 6px 12px); }
