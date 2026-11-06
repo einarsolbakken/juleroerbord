@@ -65,7 +65,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       push(p + BAND + FEATHER, outside);
     });
     push(100, outside);
-    return `linear-gradient(to bottom, ${stops.map(([p, c]) => `${p}% ${c}`).join(", ")})`;
+    return `linear-gradient(to bottom, ${stops.map(([p, c]) => `${c} ${p}%`).join(", ")})`;
   };
   const redLaneMask = laneMask("black", "transparent");
   const whiteLaneMask = laneMask("transparent", "black");
