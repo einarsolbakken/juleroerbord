@@ -80,12 +80,20 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* River */}
           <div className="relative w-24 sm:w-32 flex-shrink-0">
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
+            <div ref={riverRef} className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
               <div className="absolute inset-0 river-ripples regatta-ripples" />
               <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
-              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
               <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
-              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
+              {events.map((_, i) => (
+                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "25%", transform: "translate(-50%, -50%)" }}>
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                </div>
+              ))}
+              {events.map((_, i) => (
+                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "75%", transform: "translate(-50%, -50%)" }}>
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                </div>
+              ))}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
             </div>
