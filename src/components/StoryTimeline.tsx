@@ -92,7 +92,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const si = Math.floor(s);
   const packY =
     si >= n - 1 ? stopY(n - 1) : stopY(si) + (stopY(si + 1) - stopY(si)) * (s - si);
-  const ys = boats.map((o) => packY + o);
+  // Nobody rows past the finish line
+  const ys = boats.map((o) => Math.min(stopY(n - 1), packY + o));
   const maxY = Math.max(...ys);
   const leader = maxY - Math.min(...ys) < 3 ? 2 : ys.indexOf(maxY);
   const lx = (laneCenters[leader] / 100) * vw;
