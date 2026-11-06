@@ -91,6 +91,13 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     const k = Math.round((y - pitch / 2) / pitch);
     return ((k * pitch + pitch / 2) / riverH) * 100;
   };
+  // The very last buoy row in the grid — where the gold finish buoys sit
+  const lastRowPos = (() => {
+    if (!riverH) return 96;
+    const kMax = Math.floor((riverH - pitch / 2) / pitch);
+    return ((kMax * pitch + pitch / 2) / riverH) * 100;
+  })();
+  const buoyRowPos = (i: number) => (i === n - 1 ? lastRowPos : snapPos(stopPos(i)));
   const HOLE = riverH > 0 ? ((pitch / 2) / riverH) * 100 : 1.2;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
@@ -105,7 +112,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       stops.push([p, color]);
     };
     events.forEach((_, i) => {
-      const p = snapPos(stopPos(i));
+      const p = buoyRowPos(i);
       push(p - HOLE, "black");
       push(p, "transparent");
       push(p + HOLE, "black");
@@ -123,7 +130,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
             <div
               ref={riverRef}
-              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden"
+              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden water-fade"
               aria-hidden
             >
               <div className="absolute inset-0 river-ripples regatta-ripples" />
@@ -147,7 +154,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                       i === n - 1 ? "buoy-gold" : "bg-primary"
                     }`}
                     style={{
-                      top: `${snapPos(stopPos(i))}%`,
+                      top: `${buoyRowPos(i)}%`,
                       left: `${x}%`,
                       transform: "translate(-50%, -50%)",
                     }}
