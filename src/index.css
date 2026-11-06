@@ -220,14 +220,14 @@
 .water-fade {
   -webkit-mask-image:
     linear-gradient(90deg, transparent, black 10%, black 90%, transparent),
-    linear-gradient(180deg, transparent, black 4%, black 97%, transparent);
+    linear-gradient(180deg, transparent, black 4%, black 99%, transparent);
   -webkit-mask-composite: source-in;
   mask-image:
     linear-gradient(90deg, transparent, black 10%, black 90%, transparent),
-    linear-gradient(180deg, transparent, black 4%, black 97%, transparent);
+    linear-gradient(180deg, transparent, black 4%, black 99%, transparent);
   mask-composite: intersect;
 }
-.buoy-gold { background: hsl(var(--gold)); box-shadow: 0 0 8px hsl(var(--gold) / 0.7); }
+.buoy-gold { background: hsl(var(--gold)); box-shadow: 0 0 10px hsl(var(--gold)), 0 0 4px hsl(var(--gold)); }
 .firework-particle {
   position: absolute;
   width: 6px;
