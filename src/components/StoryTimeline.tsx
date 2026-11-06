@@ -73,7 +73,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
 
   // Exactly one red buoy per side at every stop; white buoys fill the rest of the line.
   // Each white line gets a hole at every stop so no white buoy peeks out behind a red one.
-  const HOLE = riverH > 0 ? ((DOT_PITCH / 2 + 8) / riverH) * 100 : 1.8;
+  const pitch = typeof window !== "undefined" && window.innerWidth >= 640 ? 28 : DOT_PITCH;
+  const HOLE = riverH > 0 ? ((pitch / 2 + 2) / riverH) * 100 : 1.2;
   const whiteLaneMask = (() => {
     const stops: Array<[number, string]> = [[0, "black"]];
     const push = (pos: number, color: string) => {
@@ -119,15 +120,15 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 />
               ))}
 
-              {/* A row of 8 red buoys across the course at every stop */}
+              {/* At every stop, the white buoy in each lane line is replaced by a red one */}
               {events.map((_, i) =>
-                Array.from({ length: 8 }, (_, b) => (
+                dividers.map((x, b) => (
                   <div
                     key={`${i}-${b}`}
-                    className="absolute buoy-stop w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]"
+                    className="absolute buoy-stop w-[5px] h-[5px] sm:w-2 sm:h-2 rounded-full bg-primary"
                     style={{
                       top: `${stopPos(i)}%`,
-                      left: `${((b + 0.5) / 8) * 100}%`,
+                      left: `${x}%`,
                       transform: "translate(-50%, -50%)",
                     }}
                   />
