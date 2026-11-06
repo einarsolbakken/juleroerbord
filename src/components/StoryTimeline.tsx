@@ -51,7 +51,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
 
         <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-6 sm:py-10">
           {/* River */}
-          <div className="relative w-16 sm:w-24 flex-shrink-0">
+          <div className="relative w-24 sm:w-32 flex-shrink-0">
             <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
               <div className="absolute inset-0 river-ripples regatta-ripples" />
               <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" />
