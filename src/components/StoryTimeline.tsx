@@ -42,6 +42,35 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const boatPos = 8 + progress * 84;
   const sway = 0;
 
+  // Red buoys line the lanes at every stop; white buoys fill the rest of the lane
+  const BAND = Math.min(7, (84 / Math.max(1, n - 1)) * 0.42);
+  const FEATHER = 1;
+  const laneMask = (inside: string, outside: string) => {
+    const stops: Array<[number, string]> = [[0, outside]];
+    const push = (pos: number, color: string) => {
+      const p = Math.max(0, Math.min(100, pos));
+      const last = stops[stops.length - 1];
+      if (p < last[0]) return;
+      if (p === last[0]) {
+        last[1] = color;
+        return;
+      }
+      stops.push([p, color]);
+    };
+    events.forEach((_, i) => {
+      const p = stopPos(i);
+      push(p - BAND - FEATHER, outside);
+      push(p - BAND, inside);
+      push(p + BAND, inside);
+      push(p + BAND + FEATHER, outside);
+    });
+    push(100, outside);
+    return `linear-gradient(to bottom, ${stops.map(([p, c]) => `${p}% ${c}`).join(", ")})`;
+  };
+  const redLaneMask = laneMask("black", "transparent");
+  const whiteLaneMask = laneMask("transparent", "black");
+  const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
+
   return (
     <div ref={wrapRef} style={{ height: `${n * 90 + 40}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
@@ -50,8 +79,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           <div className="relative w-24 sm:w-32 flex-shrink-0">
             <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
               <div className="absolute inset-0 river-ripples regatta-ripples" />
-              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" />
-              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line" />
+              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
+              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
+              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
+              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
             </div>
