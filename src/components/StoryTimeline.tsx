@@ -49,19 +49,21 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         const h = riverRef.current?.getBoundingClientRect().height ?? 0;
         if (h) setRiverH((prev) => (Math.abs(prev - h) > 0.5 ? h : prev));
 
-        const act = Math.min(n - 1, Math.floor(p * n)) % LANES;
         const boatPos = 8 + p * 84;
-        const spread = Math.min(1, p * 2.5);
+        // Boats row in line until the 3rd stop, then small gradual position changes
+        const startP = n > 2 ? 2 / (n - 1) : 0;
+        const spread = Math.min(1, Math.max(0, (p - startP) / 0.15));
         const cur = boatsRef.current;
         let maxDelta = 0;
         for (let L = 0; L < LANES; L++) {
-          const rank = (act - L + LANES) % LANES;
+          const drift =
+            Math.sin(p * 7 + L * 1.9) * 1.6 + Math.sin(p * 3.3 + L * 2.7) * 1.0;
           const target = Math.min(
             100 - PAD,
-            Math.max(PAD, boatPos - rank * GAP * spread)
+            Math.max(PAD, boatPos + drift * spread * (GAP / 8.5))
           );
           maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
-          cur[L] += (target - cur[L]) * 0.14;
+          cur[L] += (target - cur[L]) * 0.08;
         }
         if (maxDelta > 0.01) setBoats(cur.slice());
       }
@@ -76,7 +78,9 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   }, [n]);
 
   const active = Math.min(n - 1, Math.floor(progress * n));
-  const leaderLane = active % LANES;
+  const maxY = Math.max(...boats);
+  const leaderLane =
+    maxY - Math.min(...boats) < 0.3 ? -1 : boats.indexOf(maxY);
   const atGoal = progress > 0.96;
   // Stops placed evenly on the track; boats glide between them
   const stopPos = (i: number) => (n === 1 ? 50 : 8 + (i / (n - 1)) * 84);
