@@ -211,5 +211,4 @@
 .river-ripples { animation: ripple-flow 5s linear infinite; }
 @keyframes ripple-flow { from { transform: translateY(0); } to { transform: translateY(70px); } }
 .buoy-line { background-image: radial-gradient(circle, hsl(var(--foreground)) 0 2.6px, transparent 3.2px); background-size: 8px 20px; background-position: center 0; background-repeat: repeat-y; }
-.buoy-line-red { background-image: radial-gradient(circle, hsl(var(--primary)) 0 3.6px, transparent 4.2px); background-size: 8px 20px; background-position: center 0; background-repeat: repeat-y; }
 .regatta-finish { background: repeating-linear-gradient(90deg, hsl(var(--foreground)) 0 6px, hsl(var(--background)) 6px 12px); }

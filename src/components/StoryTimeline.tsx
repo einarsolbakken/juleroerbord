@@ -7,9 +7,13 @@ export interface StoryEvent {
   backInfo: string;
 }
 
+const DOT_PITCH = 20; // px vertical spacing between buoys (matches .buoy-line)
+
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const riverRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [riverH, setRiverH] = useState(0);
   const n = events.length;
 
   useEffect(() => {
@@ -22,6 +26,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       const total = rect.height - window.innerHeight;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
       setProgress(p);
+      const h = riverRef.current?.getBoundingClientRect().height ?? 0;
+      setRiverH(h);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -42,11 +48,11 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const boatPos = 8 + progress * 84;
   const sway = 0;
 
-  // Red buoys line the lanes at every stop; white buoys fill the rest of the lane
-  const BAND = Math.min(4.5, (84 / Math.max(1, n - 1)) * 0.28);
-  const FEATHER = 1;
-  const laneMask = (inside: string, outside: string) => {
-    const stops: Array<[number, string]> = [[0, outside]];
+  // Exactly one red buoy per lane at every stop; white buoys fill the rest of the lane.
+  // The white line gets a one-buoy-wide hole at each stop so no white buoy peeks out.
+  const HOLE = riverH > 0 ? ((DOT_PITCH / 2 + 2) / riverH) * 100 : 1.4;
+  const whiteLaneMask = (() => {
+    const stops: Array<[number, string]> = [[0, "black"]];
     const push = (pos: number, color: string) => {
       const p = Math.max(0, Math.min(100, pos));
       const last = stops[stops.length - 1];
@@ -59,16 +65,13 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     };
     events.forEach((_, i) => {
       const p = stopPos(i);
-      push(p - BAND - FEATHER, outside);
-      push(p - BAND, inside);
-      push(p + BAND, inside);
-      push(p + BAND + FEATHER, outside);
+      push(p - HOLE, "black");
+      push(p, "transparent");
+      push(p + HOLE, "black");
     });
-    push(100, outside);
+    push(100, "black");
     return `linear-gradient(to bottom, ${stops.map(([p, c]) => `${c} ${p}%`).join(", ")})`;
-  };
-  const redLaneMask = laneMask("black", "transparent");
-  const whiteLaneMask = laneMask("transparent", "black");
+  })();
   const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
 
   return (
@@ -77,12 +80,20 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* River */}
           <div className="relative w-24 sm:w-32 flex-shrink-0">
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
+            <div ref={riverRef} className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
               <div className="absolute inset-0 river-ripples regatta-ripples" />
               <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
-              <div className="absolute inset-y-0 left-1/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
               <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line" style={mask(whiteLaneMask)} />
-              <div className="absolute inset-y-0 left-3/4 w-2 -translate-x-1/2 buoy-line-red" style={mask(redLaneMask)} />
+              {events.map((_, i) => (
+                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "25%", transform: "translate(-50%, -50%)" }}>
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                </div>
+              ))}
+              {events.map((_, i) => (
+                <div key={i} className="absolute buoy-stop" style={{ top: `${stopPos(i)}%`, left: "75%", transform: "translate(-50%, -50%)" }}>
+                  <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(0,0,0,0.4)]" />
+                </div>
+              ))}
               <div className="absolute inset-x-0 top-0 h-1 bg-foreground/70" />
               <div className="absolute inset-x-0 bottom-0 h-1 regatta-finish" />
             </div>
