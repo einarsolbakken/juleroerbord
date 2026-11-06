@@ -7,9 +7,13 @@ export interface StoryEvent {
   backInfo: string;
 }
 
+const DOT_PITCH = 20; // px vertical spacing between buoys (matches .buoy-line)
+
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const riverRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [riverH, setRiverH] = useState(0);
   const n = events.length;
 
   useEffect(() => {
@@ -22,6 +26,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       const total = rect.height - window.innerHeight;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
       setProgress(p);
+      const h = riverRef.current?.getBoundingClientRect().height ?? 0;
+      setRiverH(h);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
@@ -42,11 +48,11 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const boatPos = 8 + progress * 84;
   const sway = 0;
 
-  // Red buoys line the lanes at every stop; white buoys fill the rest of the lane
-  const BAND = Math.min(4.5, (84 / Math.max(1, n - 1)) * 0.28);
-  const FEATHER = 1;
-  const laneMask = (inside: string, outside: string) => {
-    const stops: Array<[number, string]> = [[0, outside]];
+  // Exactly one red buoy per lane at every stop; white buoys fill the rest of the lane.
+  // The white line gets a one-buoy-wide hole at each stop so no white buoy peeks out.
+  const HOLE = riverH > 0 ? ((DOT_PITCH / 2 + 2) / riverH) * 100 : 1.4;
+  const whiteLaneMask = (() => {
+    const stops: Array<[number, string]> = [[0, "black"]];
     const push = (pos: number, color: string) => {
       const p = Math.max(0, Math.min(100, pos));
       const last = stops[stops.length - 1];
@@ -59,16 +65,13 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     };
     events.forEach((_, i) => {
       const p = stopPos(i);
-      push(p - BAND - FEATHER, outside);
-      push(p - BAND, inside);
-      push(p + BAND, inside);
-      push(p + BAND + FEATHER, outside);
+      push(p - HOLE, "black");
+      push(p, "transparent");
+      push(p + HOLE, "black");
     });
-    push(100, outside);
+    push(100, "black");
     return `linear-gradient(to bottom, ${stops.map(([p, c]) => `${c} ${p}%`).join(", ")})`;
-  };
-  const redLaneMask = laneMask("black", "transparent");
-  const whiteLaneMask = laneMask("transparent", "black");
+  })();
   const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
 
   return (
