@@ -43,7 +43,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const sway = 0;
 
   // Red buoys line the lanes at every stop; white buoys fill the rest of the lane
-  const BAND = Math.min(7, (84 / Math.max(1, n - 1)) * 0.42);
+  const BAND = Math.min(4.5, (84 / Math.max(1, n - 1)) * 0.28);
   const FEATHER = 1;
   const laneMask = (inside: string, outside: string) => {
     const stops: Array<[number, string]> = [[0, outside]];
