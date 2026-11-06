@@ -45,11 +45,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   return (
     <div ref={wrapRef} style={{ height: `${n * 90 + 40}vh` }} className="relative">
       <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
-        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-center text-foreground pt-8 sm:pt-12">
-          Program
-        </h2>
-
-        <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-6 sm:py-10">
+        <div className="flex-1 flex items-stretch gap-4 sm:gap-10 max-w-4xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* River */}
           <div className="relative w-24 sm:w-32 flex-shrink-0">
             <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-24 sm:w-32 regatta-water overflow-hidden" aria-hidden>
@@ -66,9 +62,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 style={{ top: `${stopPos(i)}%` }}
               >
                 <div
-                  className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 transition-all duration-500 ${
-                    i <= active ? "bg-primary border-primary scale-125" : "bg-card border-muted-foreground/50"
-                  }`}
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary border-2 border-foreground/80 shadow-[0_0_10px_rgba(0,0,0,0.35)]"
                 />
               </div>
             ))}
