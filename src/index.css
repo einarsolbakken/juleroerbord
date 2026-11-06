@@ -211,4 +211,8 @@
 .river-ripples { animation: ripple-flow 5s linear infinite; }
 @keyframes ripple-flow { from { transform: translateY(0); } to { transform: translateY(70px); } }
 .buoy-line { background-image: radial-gradient(circle, hsl(var(--foreground)) 0 2.6px, transparent 3.2px); background-size: 8px 20px; background-position: center 0; background-repeat: repeat-y; }
+@media (min-width: 640px) {
+  .buoy-line { background-image: radial-gradient(circle, hsl(var(--foreground)) 0 4px, transparent 4.6px); background-size: 12px 28px; }
+}
+.regatta-lanes { background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.055) 0 16.6667%, rgba(0,0,0,0.13) 16.6667% 33.3333%); }
 .regatta-finish { background: repeating-linear-gradient(90deg, hsl(var(--foreground)) 0 6px, hsl(var(--background)) 6px 12px); }
