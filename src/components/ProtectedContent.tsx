@@ -118,13 +118,13 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en legendarisk dag. Spis en god frokost, drikk vann og finn fram Norge-drakta." },
-    { time: "10:45", title: "Treningsøkt", description: "Romaskin - NSR eller CR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
-    { time: "13:15", title: "TBD", description: "TBD", icon: "🍾", backInfo: "Vi tar felles transport direkte fra trening til TBD. Ta med deg noen pils hit om ønskelig 🍻. " },
-    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og MYE alkohol (Ikke ta med egen drikke)." },
-    { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "TBD" },
-    { time: "20:30", title: "Middag", description: "Stortorvet → BA3", icon: "🍾", backInfo: "TBD" },
-    { time: "23:00", title: "Byen", description: "Final destination", icon: "🎆", backInfo: "Båtene er i mål! Kvelden avsluttes ute på byen. Her gjelder det å holde seg flytende helt til lysene skrus på." },
+    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en dag med mye halloi. Spis en god frokost, drikk vann og finn fram Norge-drakta." },
+    { time: "10:45", title: "Treningsøkt", description: "6 x 4min på C2 NSR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
+    { time: "13:15", title: "Badstue", description: "Trosten på sukkerbiten", icon: "🍾", backInfo: "Transport direkte fra trening til Sukkerbiten for badstue 🧖🧖. Ta med deg egen drikke hit om du er tørst og husk badebukse.  " },
+    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og plenty med alkohol (Ikke ta med egen drikke)." },
+    { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Stappa taxi mot byen" },
+    { time: "20:30", title: "Middag", description: "Stortorvet Gjæstegiveri", icon: "🐑", backInfo: "Vi vender tilbake til legendariske Stortorvet Gjæstegiveri. Bottomless pinnekjøtt på menyen." },
+    { time: "23:00", title: "Byen", description: "Final destination", icon: "🎆", backInfo: "Kvelden avsluttes selvfølgelig ute på byen. Vi drar hjem når lysene skrus på." },
   ];
 
   return (
