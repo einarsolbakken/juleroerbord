@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 interface Snowflake {
   id: number;
@@ -25,6 +25,8 @@ const createSnowflakes = (): Snowflake[] =>
 
 const Snowfall = ({ confineOnMobile = false }: { confineOnMobile?: boolean }) => {
   const [snowflakes] = useState(createSnowflakes);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
   const [count, setCount] = useState(() => window.innerWidth < 640 ? 24 : 80);
 
   useEffect(() => {
@@ -40,8 +42,17 @@ const Snowfall = ({ confineOnMobile = false }: { confineOnMobile?: boolean }) =>
     };
   }, []);
 
+  // Pause the snow while it is scrolled out of view so it costs nothing.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || !confineOnMobile) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(!!entry?.isIntersecting));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [confineOnMobile]);
+
   return (
-    <div className={`${confineOnMobile ? "absolute sm:fixed" : "fixed"} inset-0 pointer-events-none z-50 overflow-hidden`} aria-hidden="true">
+    <div ref={rootRef} className={`${!visible ? "snow-paused " : ""}${confineOnMobile ? "absolute sm:fixed" : "fixed"} inset-0 pointer-events-none z-50 overflow-hidden`} aria-hidden="true">
       {snowflakes.slice(0, count).map((flake) => (
         <div
           key={flake.id}

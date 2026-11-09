@@ -8,7 +8,7 @@ import archive1 from "@/assets/archive-photo.jpeg";
 import archive2 from "@/assets/archive-1.jpg";
 import archive3 from "@/assets/archive-2.jpeg";
 import archive4 from "@/assets/archive-3.jpeg";
-import archive5 from "@/assets/archive-4.png";
+import archive5 from "@/assets/archive-4.jpg";
 import archive6 from "@/assets/archive-5.jpg";
 import archive7 from "@/assets/archive-6.jpeg";
 import archive8 from "@/assets/archive-7.jpg";
@@ -132,7 +132,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       {/* Lightbox */}
       {lightboxImage && (
         <div 
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setLightboxImage(null)}
         >
           <button
@@ -191,7 +191,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center px-4 opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
             {/* Radial vignette behind text for extra contrast */}
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6)_0%,transparent_70%)] blur-2xl" />
+            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6)_0%,transparent_70%)]" />
 
             <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-4 sm:mb-6 leading-tight [text-shadow:0_4px_24px_rgba(0,0,0,0.85),0_2px_6px_rgba(0,0,0,0.9)]">
               Jule<span className="text-primary [text-shadow:0_0_30px_rgba(220,38,38,0.7),0_4px_24px_rgba(0,0,0,0.85)]">roer</span>bord 2026 🎄
@@ -208,7 +208,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           variant="ghost"
           size="icon"
           onClick={toggleMute}
-          className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20 p-3 sm:p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
+          className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20 p-3 sm:p-4 rounded-full bg-white/15 border border-white/20 text-white hover:bg-white/20 transition-colors duration-300"
           aria-label={isMuted ? "Slå på lyd" : "Slå av lyd"}
         >
           {isMuted ? (
@@ -265,7 +265,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                 key={feature.id}
                 id={`feature-${feature.id}`}
                 onClick={() => setExpandedCard(expandedCard === feature.id ? null : feature.id)}
-                className={`glass-card scroll-mt-4 rounded-xl sm:rounded-2xl p-5 sm:p-8 opacity-0 animate-fade-in cursor-pointer transition-all duration-500 group
+                className={`glass-card scroll-mt-4 rounded-xl sm:rounded-2xl p-5 sm:p-8 opacity-0 animate-fade-in cursor-pointer transition-colors duration-500 group
                   ${expandedCard === feature.id 
                     ? 'sm:col-span-2 border-primary/50 bg-primary/5' 
                     : 'hover:border-primary/40'
@@ -296,8 +296,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                 </div>
                 
                 {/* Expanded content */}
-                <div className={`overflow-hidden transition-all duration-500 ${
-                  expandedCard === feature.id ? 'max-h-[800px] opacity-100 mt-4 sm:mt-8' : 'max-h-0 opacity-0'
+                <div className={`overflow-hidden transition-opacity duration-500 ${
+                  expandedCard === feature.id ? 'opacity-100 mt-4 sm:mt-8' : 'hidden opacity-0'
                 }`}>
                   {feature.id === "faq" && (
                     <div className="space-y-3 sm:space-y-4">
@@ -322,13 +322,13 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                     </div>
                   )}
                   
-                  {feature.id === "arkiv" && (
+                  {feature.id === "arkiv" && expandedCard === "arkiv" && (
                     <div>
                       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
                         {archiveImages.map((imgSrc, i) => (
                           <div
                             key={i} 
-                            className="aspect-square glass-card rounded-lg sm:rounded-xl overflow-hidden hover:scale-110 transition-transform cursor-pointer bg-background/30"
+                            className="aspect-square rounded-lg sm:rounded-xl overflow-hidden border border-border/30 cursor-pointer bg-background/30"
                             onClick={(e) => {
                               e.stopPropagation();
                               setLightboxImage(imgSrc);
@@ -337,6 +337,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
                             <img 
                               src={imgSrc} 
                               alt={`Arkivbilde ${i + 1}`}
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover"
                             />
                           </div>
