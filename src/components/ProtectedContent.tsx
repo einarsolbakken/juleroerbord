@@ -27,70 +27,29 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const muteButtonRef = useRef<HTMLButtonElement>(null);
-  const userMutedVideoRef = useRef(false);
 
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
 
-    let isMounted = true;
-
-    const tryUnmute = async () => {
-      if (userMutedVideoRef.current) return;
-
-      try {
-        v.muted = false;
-        v.volume = 1;
-        await v.play();
-        if (!isMounted || userMutedVideoRef.current) {
-          v.muted = true;
-          return;
-        }
-        setIsMuted(false);
-      } catch {
-        v.muted = true;
-        if (isMounted) setIsMuted(true);
-      }
+    // Keep autoplay muted; only the sound button may enable audio.
+    v.muted = true;
+    const startVideo = () => { void v.play().catch(() => {}); };
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting && !document.hidden) startVideo();
+      else v.pause();
+    }, { threshold: 0 });
+    observer.observe(v);
+    const onVisibility = () => {
+      if (document.hidden) v.pause();
+      else if (v.getBoundingClientRect().bottom > 0) startVideo();
     };
-
-    // Start muted after the video has buffered enough to play. This avoids
-    // racing the browser's autoplay policy before the media is ready.
-    const startVideo = async () => {
-      v.muted = true;
-      try {
-        await v.play();
-        if (isMounted) void tryUnmute();
-      } catch {
-        // Playback can still be blocked by the browser. The interaction
-        // fallback below will retry it after the user interacts with the page.
-      }
-    };
-
-    const onCanPlay = () => void startVideo();
-    v.addEventListener("canplay", onCanPlay);
-
-    if (v.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-      void startVideo();
-    }
-
-    // Fallback: unmute on first user interaction
-    const onInteract = (event: Event) => {
-      const isMuteControl = event.target instanceof Node && muteButtonRef.current?.contains(event.target);
-
-      if (!isMuteControl && v.muted) {
-        void tryUnmute();
-      }
-      window.removeEventListener("pointerdown", onInteract);
-      window.removeEventListener("keydown", onInteract);
-    };
-    window.addEventListener("pointerdown", onInteract);
-    window.addEventListener("keydown", onInteract);
+    document.addEventListener("visibilitychange", onVisibility);
+    startVideo();
     return () => {
-      isMounted = false;
-      v.removeEventListener("canplay", onCanPlay);
-      window.removeEventListener("pointerdown", onInteract);
-      window.removeEventListener("keydown", onInteract);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+      v.pause();
     };
   }, []);
 
@@ -112,7 +71,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     if (!video) return;
 
     const nextMuted = !video.muted;
-    userMutedVideoRef.current = nextMuted;
     video.muted = nextMuted;
     setIsMuted(nextMuted);
 
@@ -121,7 +79,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       if (video.paused) {
         video.play().catch(() => {
           video.muted = true;
-          userMutedVideoRef.current = true;
           setIsMuted(true);
         });
       }
@@ -200,8 +157,8 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           playsInline
           muted
           preload="auto"
-          onCanPlay={() => setIsVideoReady(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-out will-change-[opacity] ${
+          onLoadedData={() => setIsVideoReady(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-out ${
             isVideoReady ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -245,8 +202,9 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         </div>
 
         {/* Mute/Unmute button */}
-        <button
-          ref={muteButtonRef}
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={toggleMute}
           className="absolute bottom-20 sm:bottom-24 right-4 sm:right-8 z-20 p-3 sm:p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
           aria-label={isMuted ? "Slå på lyd" : "Slå av lyd"}
@@ -256,7 +214,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
           ) : (
             <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
           )}
-        </button>
+        </Button>
 
         {/* Scroll indicator */}
         <button 
@@ -275,8 +233,6 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
       <div id="content" className="min-h-screen relative overflow-x-clip">
         {/* Background effects */}
         <div className="absolute inset-0 gradient-festive" />
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-primary/10 rounded-full blur-[100px] md:blur-[150px]" />
-        <div className="absolute bottom-0 left-0 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-accent/10 rounded-full blur-[80px] md:blur-[100px]" />
         
         {/* Christmas decorations */}
 
