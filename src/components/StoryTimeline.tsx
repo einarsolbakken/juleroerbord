@@ -25,6 +25,11 @@ const BURSTS = [
   { x: 60, y: 55, r: 26, c: "hsl(45 95% 55%)", delay: 1.3 },
 ];
 const PARTICLES = 12;
+// Keep moving layers on whole device pixels so iOS never resamples them a pixel up/down.
+const snapPx = (v: number) => {
+  const dpr = window.devicePixelRatio || 1;
+  return Math.round(v * dpr) / dpr;
+};
 
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const viewportHeight = useStableViewportHeight();
@@ -94,7 +99,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
           cur[L] += (target - cur[L]) * ease;
           const boat = boatElements.current[L];
-          if (boat) boat.style.transform = `translate3d(-50%, ${cur[L] * courseHeight / 100}px, 0)`;
+          if (boat) boat.style.transform = `translate3d(-50%, ${snapPx(cur[L] * courseHeight / 100)}px, 0)`;
         }
         const maxY = Math.max(...cur);
         const leader = maxY - Math.min(...cur) < 0.3 ? -1 : cur.indexOf(maxY);
@@ -188,14 +193,14 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
 
   return (
-    <div ref={wrapRef} style={{ height: viewportHeight * (n * 0.9 + 1.4) }} className="relative [overflow-anchor:none]">
-      <div ref={sceneRef} style={{ height: viewportHeight }} className="sticky top-0 flex flex-col overflow-hidden [transform:translateZ(0)]">
+    <div ref={wrapRef} style={{ height: Math.round(viewportHeight * (n * 0.9 + 1.4)) }} className="relative [overflow-anchor:none]">
+      <div ref={sceneRef} style={{ height: viewportHeight }} className="sticky top-0 flex flex-col overflow-hidden">
         <div className="flex-1 flex items-stretch gap-3 sm:gap-10 max-w-6xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* Regatta course */}
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
             <div
               ref={riverRef}
-              className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-full regatta-water regatta-lanes overflow-hidden water-fade"
+              className="absolute inset-0 regatta-water regatta-lanes overflow-hidden water-fade"
               aria-hidden
             >
               <div className="absolute inset-0 river-ripples regatta-ripples" />
@@ -263,7 +268,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                     key={L}
                     ref={(el) => { boatElements.current[L] = el; }}
                     className="absolute top-0 pointer-events-none will-change-transform"
-                    style={{ transform: `translate3d(-50%, ${y * riverH / 100}px, 0)`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
+                    style={{ transform: `translate3d(-50%, ${snapPx(y * riverH / 100)}px, 0)`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
                   >
                     <div
                       className={`relative -translate-y-1/2 transition-opacity duration-700 ease-out ${
