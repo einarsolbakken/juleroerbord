@@ -29,7 +29,9 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const riverRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [riverH, setRiverH] = useState(0);
-  const [boats, setBoats] = useState<number[]>(() => Array(LANES).fill(8));
+  const [boats] = useState<number[]>(() => Array(LANES).fill(8));
+  const boatElements = useRef<Array<HTMLDivElement | null>>([]);
+  const [leaderLane, setLeaderLane] = useState(-1);
   const [, setVw] = useState(0);
   const boatsRef = useRef<number[]>(Array(LANES).fill(8));
   const n = events.length;
@@ -38,18 +40,30 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   useEffect(() => {
     let raf = 0;
     let alive = true;
+    let needsMeasure = true;
+    let targetProgress = 0;
+    let lastFrame = 0;
 
     const loop = () => {
+      raf = 0;
       if (!alive) return;
       const el = wrapRef.current;
       if (el) {
-        const rect = el.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-        setProgress((prev) => (Math.abs(prev - p) > 0.0005 ? p : prev));
-
-        const h = riverRef.current?.getBoundingClientRect().height ?? 0;
-        if (h) setRiverH((prev) => (Math.abs(prev - h) > 0.5 ? h : prev));
+        if (needsMeasure) {
+          const rect = el.getBoundingClientRect();
+          const total = rect.height - window.innerHeight;
+          targetProgress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+          needsMeasure = false;
+          setProgress((prev) =>
+            Math.floor(prev * n) !== Math.floor(targetProgress * n) ||
+            (prev > 0.96) !== (targetProgress > 0.96) ? targetProgress : prev
+          );
+        }
+        const p = targetProgress;
+        const now = performance.now();
+        const elapsed = lastFrame ? Math.min(64, now - lastFrame) : 16.67;
+        lastFrame = now;
+        const ease = 1 - Math.pow(0.92, elapsed / 16.67);
 
         const [r0, r1] = rangeRef.current;
         const boatPos = r0 + p * (r1 - r0);
@@ -71,17 +85,38 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
             Math.max(PAD, boatPos + pattern * SPREAD_AMP * t)
           );
           maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
-          cur[L] += (target - cur[L]) * 0.08;
+          cur[L] += (target - cur[L]) * ease;
+          const boat = boatElements.current[L];
+          if (boat) boat.style.top = `${cur[L]}%`;
         }
-        if (maxDelta > 0.01) setBoats(cur.slice());
+        const maxY = Math.max(...cur);
+        const leader = maxY - Math.min(...cur) < 0.3 ? -1 : cur.indexOf(maxY);
+        setLeaderLane((prev) => prev === leader ? prev : leader);
+        if (maxDelta > 0.01) raf = requestAnimationFrame(loop);
       }
-      raf = requestAnimationFrame(loop);
     };
 
-    raf = requestAnimationFrame(loop);
-    const onResize = () => setVw(window.innerWidth);
+    const schedule = () => {
+      needsMeasure = true;
+      if (!raf) {
+        lastFrame = 0;
+        raf = requestAnimationFrame(loop);
+      }
+    };
+    const onResize = () => {
+      setVw(window.innerWidth);
+      const h = riverRef.current?.clientHeight ?? 0;
+      if (h) setRiverH(h);
+      schedule();
+    };
+    const observer = new ResizeObserver(onResize);
+    if (riverRef.current) observer.observe(riverRef.current);
+    window.addEventListener("scroll", schedule, { passive: true });
+    onResize();
     window.addEventListener("resize", onResize);
     return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", onResize);
       alive = false;
       cancelAnimationFrame(raf);
@@ -89,9 +124,6 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   }, [n]);
 
   const active = Math.min(n - 1, Math.floor(progress * n));
-  const maxY = Math.max(...boats);
-  const leaderLane =
-    maxY - Math.min(...boats) < 0.3 ? -1 : boats.indexOf(maxY);
   const atGoal = progress > 0.96;
   // Stops placed evenly on the track; boats glide between them
   const stopPos = (i: number) => (n === 1 ? 50 : 8 + (i / (n - 1)) * 84);
@@ -215,6 +247,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 return (
                   <div
                     key={L}
+                    ref={(el) => { boatElements.current[L] = el; }}
                     className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
                     style={{ top: `${y}%`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
                   >
