@@ -8,3 +8,4 @@
 - Use a shared stable viewport-height hook for the video section and story geometry; ignore mobile height-only resize events so browser toolbar changes cannot shift the story during scrolling.
 - Use static overlay fades rather than masking animated boats; confine mobile snowfall to the video and keep mobile water ripples static to reduce scroll-time compositing.
 - Pin the story scene with JS-toggled position: fixed (absolute before/after its range) instead of sticky, use whole-pixel wrapper heights, and snap boat offsets to device pixels; iOS WebKit shakes sticky layers when their contents update during scrolling.
+- Keep archive photos resized to at most 1600px JPEG, mount the archive grid only when it is opened, and lazy-load its images so scrolling never competes with photo downloads; avoid backdrop blur and layout-property transitions on phones.
