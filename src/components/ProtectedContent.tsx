@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut, Gift, HelpCircle, Image, ChevronDown, X, Volume2, VolumeX, ChevronDownCircle, ExternalLink } from "lucide-react";
 import Snowfall from "./Snowfall";
 import StoryTimeline from "./StoryTimeline";
+import { useStableViewportHeight } from "@/hooks/use-stable-viewport-height";
 import archive1 from "@/assets/archive-photo.jpeg";
 import archive2 from "@/assets/archive-1.jpg";
 import archive3 from "@/assets/archive-2.jpeg";
@@ -22,6 +23,7 @@ interface ProtectedContentProps {
 
 // Juleroerbord 2026
 const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
+  const viewportHeight = useStableViewportHeight();
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -148,7 +150,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         </div>
       )}
       {/* Video Hero Section - Full Screen */}
-      <section className="h-screen relative overflow-hidden bg-black">
+      <section style={{ height: viewportHeight }} className="relative overflow-hidden bg-black">
         {/* Video Background */}
         <video
           ref={videoRef}

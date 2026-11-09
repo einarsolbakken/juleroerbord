@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getStoryProgress } from "@/lib/story-progress";
+import { useStableViewportHeight } from "@/hooks/use-stable-viewport-height";
 
 export interface StoryEvent {
   time: string;
@@ -26,6 +27,7 @@ const BURSTS = [
 const PARTICLES = 12;
 
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
+  const viewportHeight = useStableViewportHeight();
   const wrapRef = useRef<HTMLDivElement>(null);
   const riverRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -176,8 +178,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
 
   return (
-    <div ref={wrapRef} style={{ height: `${n * 90 + 140}svh` }} className="relative">
-      <div ref={sceneRef} className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
+    <div ref={wrapRef} style={{ height: viewportHeight * (n * 0.9 + 1.4) }} className="relative [overflow-anchor:none]">
+      <div ref={sceneRef} style={{ height: viewportHeight }} className="sticky top-0 flex flex-col overflow-hidden [transform:translateZ(0)]">
         <div className="flex-1 flex items-stretch gap-3 sm:gap-10 max-w-6xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* Regatta course */}
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
@@ -284,10 +286,9 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
               {events.map((e, i) => (
                 <div
                   key={i}
-                  className="absolute inset-0 flex flex-col justify-center transition-all duration-700 ease-out"
+                  className="absolute inset-0 flex flex-col justify-center transition-opacity duration-500 ease-out motion-reduce:transition-none"
                   style={{
                     opacity: i === active ? 1 : 0,
-                    transform: `translateY(${(i - active) * 40}px) scale(${i === active ? 1 : 0.95})`,
                     pointerEvents: i === active ? "auto" : "none",
                   }}
                   aria-hidden={i !== active}
