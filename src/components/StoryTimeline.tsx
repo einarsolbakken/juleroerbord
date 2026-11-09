@@ -47,6 +47,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     let needsMeasure = true;
     let targetProgress = 0;
     let lastFrame = 0;
+    let courseHeight = 0;
+    let storyTop = 0;
+    let storyHeight = 0;
+    let sceneHeight = viewportHeight;
 
     const loop = () => {
       raf = 0;
@@ -54,9 +58,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       const el = wrapRef.current;
       if (el) {
         if (needsMeasure) {
-          const rect = el.getBoundingClientRect();
-          const viewportHeight = sceneRef.current?.clientHeight ?? window.innerHeight;
-          targetProgress = getStoryProgress(-rect.top, rect.height, viewportHeight);
+          // Geometry is cached on resize, not read back after each boat move.
+          targetProgress = getStoryProgress(window.scrollY - storyTop, storyHeight, sceneHeight);
           needsMeasure = false;
           setProgress((prev) =>
             Math.floor(prev * n) !== Math.floor(targetProgress * n) ||
@@ -91,7 +94,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
           maxDelta = Math.max(maxDelta, Math.abs(target - cur[L]));
           cur[L] += (target - cur[L]) * ease;
           const boat = boatElements.current[L];
-          if (boat) boat.style.top = `${cur[L]}%`;
+          if (boat) boat.style.transform = `translate3d(-50%, ${cur[L] * courseHeight / 100}px, 0)`;
         }
         const maxY = Math.max(...cur);
         const leader = maxY - Math.min(...cur) < 0.3 ? -1 : cur.indexOf(maxY);
@@ -110,6 +113,13 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     const onResize = () => {
       setVw(window.innerWidth);
       const h = riverRef.current?.clientHeight ?? 0;
+      courseHeight = h;
+      const rect = wrapRef.current?.getBoundingClientRect();
+      if (rect) {
+        storyTop = rect.top + window.scrollY;
+        storyHeight = rect.height;
+      }
+      sceneHeight = sceneRef.current?.clientHeight ?? viewportHeight;
       if (h) setRiverH(h);
       schedule();
     };
@@ -125,7 +135,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       alive = false;
       cancelAnimationFrame(raf);
     };
-  }, [n]);
+  }, [n, viewportHeight]);
 
   const active = Math.min(n - 1, Math.floor(progress * n));
   const atGoal = progress > 0.96;
@@ -252,21 +262,21 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   <div
                     key={L}
                     ref={(el) => { boatElements.current[L] = el; }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                    style={{ top: `${y}%`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
+                    className="absolute top-0 pointer-events-none will-change-transform"
+                    style={{ transform: `translate3d(-50%, ${y * riverH / 100}px, 0)`, left: `${laneCenters[L]}%`, zIndex: leader ? 30 : 20 }}
                   >
                     <div
-                      className={`relative transition-all duration-700 ease-out ${
+                      className={`relative -translate-y-1/2 transition-opacity duration-700 ease-out ${
                         leader ? "opacity-100" : "opacity-60"
                       }`}
                     >
                       {leader && (
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
+                        <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
                       )}
                       <span
                         className={`block leading-none ${
                           leader
-                            ? "text-3xl sm:text-5xl drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                            ? "text-3xl sm:text-5xl sm:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
                             : "text-xl sm:text-3xl"
                         }`}
                       >
