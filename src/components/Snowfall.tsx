@@ -23,7 +23,7 @@ const createSnowflakes = (): Snowflake[] =>
     };
   });
 
-const Snowfall = () => {
+const Snowfall = ({ confineOnMobile = false }: { confineOnMobile?: boolean }) => {
   const [snowflakes] = useState(createSnowflakes);
   const [count, setCount] = useState(() => window.innerWidth < 640 ? 24 : 80);
 
@@ -41,7 +41,7 @@ const Snowfall = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden" aria-hidden="true">
+    <div className={`${confineOnMobile ? "absolute sm:fixed" : "fixed"} inset-0 pointer-events-none z-50 overflow-hidden`} aria-hidden="true">
       {snowflakes.slice(0, count).map((flake) => (
         <div
           key={flake.id}

@@ -218,14 +218,24 @@
 .regatta-finish { background: repeating-linear-gradient(90deg, hsl(var(--foreground)) 0 6px, hsl(var(--background)) 6px 12px); }
 :root { --gold: 45 95% 55%; }
 .water-fade {
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent, black 10%, black 90%, transparent),
-    linear-gradient(180deg, transparent, black 4%, black 99%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, transparent, black 10%, black 90%, transparent),
-    linear-gradient(180deg, transparent, black 4%, black 99%, transparent);
-  mask-composite: intersect;
+  isolation: isolate;
+}
+.water-fade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, hsl(var(--background)), transparent 10%, transparent 90%, hsl(var(--background))),
+    linear-gradient(180deg, hsl(var(--background)), transparent 4%, transparent 99%, hsl(var(--background)));
+}
+@media (max-width: 639px) {
+  .river-ripples { animation: none; }
+  .firework-particle { box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .river-ripples, .firework-particle { animation: none; }
 }
 .buoy-gold { background: hsl(var(--gold)); box-shadow: 0 0 10px hsl(var(--gold)), 0 0 4px hsl(var(--gold)); }
 .firework-particle {

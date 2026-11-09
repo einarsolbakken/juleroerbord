@@ -170,7 +170,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
         {/* Darker gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         
-        <Snowfall />
+        <Snowfall confineOnMobile />
         
         {/* Header on video */}
         <header className="absolute top-0 left-0 right-0 z-20">
