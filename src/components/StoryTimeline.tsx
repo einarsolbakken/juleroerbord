@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { getStoryProgress } from "@/lib/story-progress";
 
 export interface StoryEvent {
   time: string;
@@ -27,6 +28,7 @@ const PARTICLES = 12;
 const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const riverRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [riverH, setRiverH] = useState(0);
   const [boats] = useState<number[]>(() => Array(LANES).fill(8));
@@ -51,8 +53,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       if (el) {
         if (needsMeasure) {
           const rect = el.getBoundingClientRect();
-          const total = rect.height - window.innerHeight;
-          targetProgress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+          const viewportHeight = sceneRef.current?.clientHeight ?? window.innerHeight;
+          targetProgress = getStoryProgress(-rect.top, rect.height, viewportHeight);
           needsMeasure = false;
           setProgress((prev) =>
             Math.floor(prev * n) !== Math.floor(targetProgress * n) ||
@@ -174,8 +176,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
   const mask = (m: string) => ({ WebkitMaskImage: m, maskImage: m });
 
   return (
-    <div ref={wrapRef} style={{ height: `${n * 90 + 40}vh` }} className="relative">
-      <div className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
+    <div ref={wrapRef} style={{ height: `${n * 90 + 140}svh` }} className="relative">
+      <div ref={sceneRef} className="sticky top-0 h-[100svh] flex flex-col overflow-hidden">
         <div className="flex-1 flex items-stretch gap-3 sm:gap-10 max-w-6xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* Regatta course */}
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
