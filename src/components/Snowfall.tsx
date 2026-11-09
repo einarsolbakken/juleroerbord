@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 interface Snowflake {
   id: number;
@@ -25,13 +25,27 @@ const createSnowflakes = (): Snowflake[] =>
 
 const Snowfall = () => {
   const [snowflakes] = useState(createSnowflakes);
+  const [count, setCount] = useState(() => window.innerWidth < 640 ? 24 : 80);
+
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 639px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setCount(reduced.matches ? 0 : mobile.matches ? 24 : 80);
+    update();
+    mobile.addEventListener("change", update);
+    reduced.addEventListener("change", update);
+    return () => {
+      mobile.removeEventListener("change", update);
+      reduced.removeEventListener("change", update);
+    };
+  }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-      {snowflakes.map((flake) => (
+    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden" aria-hidden="true">
+      {snowflakes.slice(0, count).map((flake) => (
         <div
           key={flake.id}
-          className="absolute text-white animate-snowfall"
+          className="absolute text-foreground animate-snowfall"
           style={{
             left: `${flake.left}%`,
             top: 0,
@@ -48,4 +62,4 @@ const Snowfall = () => {
   );
 };
 
-export default Snowfall;
+export default memo(Snowfall);
