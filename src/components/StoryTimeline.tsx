@@ -299,10 +299,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                         <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
                       )}
                       <span
-                        className={`block leading-none ${
-                          leader
-                            ? "text-3xl sm:text-5xl sm:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
-                            : "text-xl sm:text-3xl"
+                        className={`block leading-none text-3xl sm:text-5xl origin-center transition-transform duration-700 ease-out ${
+                          leader ? "scale-100" : "scale-[0.67]"
                         }`}
                       >
                         🚣
