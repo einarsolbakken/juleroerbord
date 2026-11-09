@@ -108,7 +108,26 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
       }
     };
 
+    // Pin the scene with position: fixed instead of sticky. iOS WebKit re-places
+    // sticky layers on every DOM commit during scrolling, which shakes the course.
+    let mode = "";
+    const pin = () => {
+      const scene = sceneRef.current;
+      if (!scene) return;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      // Read the live wrapper offset so late layout shifts above can't leave it stale.
+      const y = -wrap.getBoundingClientRect().top;
+      const end = Math.max(0, storyHeight - sceneHeight);
+      const next = y <= 0 ? "before" : y >= end ? "after" : "pinned";
+      if (next === mode) return;
+      mode = next;
+      scene.style.position = next === "pinned" ? "fixed" : "absolute";
+      scene.style.top = next === "after" ? `${end}px` : "0px";
+    };
+
     const schedule = () => {
+      pin();
       needsMeasure = true;
       if (!raf) {
         lastFrame = 0;
@@ -125,6 +144,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
         storyHeight = rect.height;
       }
       sceneHeight = sceneRef.current?.clientHeight ?? viewportHeight;
+      mode = "";
       if (h) setRiverH(h);
       schedule();
     };
@@ -194,7 +214,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
 
   return (
     <div ref={wrapRef} style={{ height: Math.round(viewportHeight * (n * 0.9 + 1.4)) }} className="relative [overflow-anchor:none]">
-      <div ref={sceneRef} style={{ height: viewportHeight }} className="sticky top-0 flex flex-col overflow-hidden">
+      <div ref={sceneRef} style={{ height: viewportHeight }} className="absolute inset-x-0 top-0 flex flex-col overflow-hidden">
         <div className="flex-1 flex items-stretch gap-3 sm:gap-10 max-w-6xl w-full mx-auto px-4 py-10 sm:py-14">
           {/* Regatta course */}
           <div className="relative w-[36vw] max-w-[150px] sm:w-[34vw] sm:max-w-[440px] flex-shrink-0">
