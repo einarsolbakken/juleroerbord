@@ -114,7 +114,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
     const pin = () => {
       const scene = sceneRef.current;
       if (!scene) return;
-      const y = window.scrollY - storyTop;
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      // Read the live wrapper offset so late layout shifts above can't leave it stale.
+      const y = -wrap.getBoundingClientRect().top;
       const end = Math.max(0, storyHeight - sceneHeight);
       const next = y <= 0 ? "before" : y >= end ? "after" : "pinned";
       if (next === mode) return;
