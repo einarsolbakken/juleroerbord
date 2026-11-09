@@ -5,3 +5,4 @@
 - Serve the GitHub Pages hero video from the existing public path as H.264/AAC MP4 with fast-start metadata; retain portable media delivery outside Lovable hosting.
 - Keep background video muted until the sound control is pressed and pause playback while offscreen to reduce mobile decoding work.
 - Separate race progress from sticky release using the measured scene height, reserving a final viewport of pinned scrolling after arrival so the last event is shown before the archive.
+- Use a shared stable viewport-height hook for the video section and story geometry; ignore mobile height-only resize events so browser toolbar changes cannot shift the story during scrolling.
