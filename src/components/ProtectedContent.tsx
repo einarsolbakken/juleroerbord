@@ -124,7 +124,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
     { time: "18:15", title: "Vors", description: "Krebs gate 14", icon: "🍾", backInfo: "Vi møtes selvfølgelig til vorssprell med mye ljuging, sang og nok alkohol (IKKE ta med egen drikke). I tillegg oppfordrer vi alle til å la slipset ligge igjen hjemme (som betyr IKKE ta med slips)" },
     { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Stappa taxi mot byen" },
     { time: "20:30", title: "Middag", description: "Stortorvet Gjæstegiveri", icon: "🐑", backInfo: "Vi vender tilbake til legendariske Stortorvet Gjæstegiveri. Bottomless pinnekjøtt på menyen." },
-    { time: "23:00", title: "Byen", description: "Final destination", icon: "🎆", backInfo: "Kvelden avsluttes selvfølgelig ute på byen. Vi drar hjem når lysene skrus på." },
+    { time: "23:00", title: "BA3", description: "Final destination", icon: "🎆", backInfo: "Kvelden avsluttes selvfølgelig på BA3. Vi drar hjem når lysene skrus på." },
   ];
 
   return (
