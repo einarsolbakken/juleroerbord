@@ -298,13 +298,15 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                       {leader && (
                         <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
                       )}
-                      <span
-                        className={`block leading-none text-3xl sm:text-5xl origin-center transition-transform duration-700 ease-out ${
+                      <img
+                        src={`${import.meta.env.BASE_URL}cursor.png`}
+                        alt=""
+                        aria-hidden
+                        draggable={false}
+                        className={`block h-11 w-11 sm:h-14 sm:w-14 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.75))] ${
                           leader ? "scale-100" : "scale-[0.67]"
                         }`}
-                      >
-                        🚣
-                      </span>
+                      />
                     </div>
                   </div>
                 );
