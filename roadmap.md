@@ -6,5 +6,5 @@
 - [x] Vannet skal fade mykt ut i bakgrunnen (kanter)
 - [x] Reduser snømengden og arbeidet under mobilscrolling i roprogrammet
 - [x] Gjør videostarten raskere og verifiser avspilling etter innlogging
-- [ ] Erstatt 🚣-emojiene i regattabana med cursor.png-ikonet, utan at båtane blir klippa eller klemma
-- [ ] Gjer båtane mekje synlege (større, glød, høgare kontrast) på telefon og PC
+- [x] Erstatt 🚣-emojiene i regattabana med cursor.png-ikonet, utan at båtane blir klippa eller klemma
+- [x] Gjer båtane mekje synlege (større, glød, høgare kontrast) på telefon og PC
