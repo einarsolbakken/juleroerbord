@@ -118,10 +118,10 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en dag med mye halloi. Spis en god frokost, drikk vann og finn fram Norge-drakta." },
-    { time: "10:45", title: "Treningsøkt", description: "6 x 4min på C2 NSR", icon: "🍾", backInfo: "Vi starter dagen med intervaller. Husk Norge-drakt" },
-    { time: "13:15", title: "Badstue", description: "Trosten på sukkerbiten", icon: "🍾", backInfo: "Transport direkte fra trening til Sukkerbiten for badstue 🧖🧖. Ta med deg egen drikke hit om du er tørst og husk badebukse.  " },
-    { time: "18:15", title: "Vors", description: "Krebs gate", icon: "🍾", backInfo: "Felles vors med ljuging, sang og plenty med alkohol (Ikke ta med egen drikke)." },
+    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en dag med mye halloi. Spis en god frokost, drikk vann og pakk det du trenger for første del av dagen." },
+    { time: "10:45", title: "Treningsøkt", description: "6 x 4min på the machine designed in hell 👺", icon: "🍾", backInfo: "Vi møtes på NSR og sikter på start litt over 11. LFG" },
+    { time: "13:15", title: "Badstue", description: "Trosten - Sukkerbiten", icon: "🍾", backInfo: "Transport fra roklubben til badstue 🧖 Husk badebukse, håndkle og evt noe om du er tørst 🚰" },
+    { time: "18:15", title: "Vors", description: "Krebs gate 14", icon: "🍾", backInfo: "Vi møtes selvfølgelig til vorssprell med mye ljuging, sang og nok alkohol (IKKE ta med egen drikke). I tillegg oppfordrer vi alle til å la slipset ligge igjen hjemme (som betyr IKKE ta med slips)" },
     { time: "20:00", title: "Maxitaxi", description: "Transport til middag", icon: "🍾", backInfo: "Stappa taxi mot byen" },
     { time: "20:30", title: "Middag", description: "Stortorvet Gjæstegiveri", icon: "🐑", backInfo: "Vi vender tilbake til legendariske Stortorvet Gjæstegiveri. Bottomless pinnekjøtt på menyen." },
     { time: "23:00", title: "Byen", description: "Final destination", icon: "🎆", backInfo: "Kvelden avsluttes selvfølgelig ute på byen. Vi drar hjem når lysene skrus på." },
