@@ -280,7 +280,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 </div>
               )}
 
-              {/* Boats */}
+            </div>
+
+            {/* Boats ride above the water layer so the track edges never clip them */}
+            <div className="absolute inset-0 z-[46] pointer-events-none" aria-hidden>
               {boats.map((y, L) => {
                 const leader = L === leaderLane;
                 return (
@@ -301,9 +304,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                       <img
                         src={`${import.meta.env.BASE_URL}cursor.png`}
                         alt=""
-                        aria-hidden
                         draggable={false}
-                        className={`block h-11 w-11 sm:h-14 sm:w-14 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.75))] ${
+                        className={`block max-w-none h-8 w-8 sm:h-14 sm:w-14 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.75))] ${
                           leader ? "scale-100" : "scale-[0.67]"
                         }`}
                       />
