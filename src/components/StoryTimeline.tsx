@@ -295,7 +295,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   >
                     <div
                       className={`relative -translate-y-1/2 transition-opacity duration-700 ease-out ${
-                        leader ? "opacity-100" : "opacity-60"
+                        leader ? "opacity-100" : "opacity-80"
                       }`}
                     >
                       {leader && (
@@ -305,8 +305,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                         src={`${import.meta.env.BASE_URL}cursor.png`}
                         alt=""
                         draggable={false}
-                        className={`block max-w-none h-8 w-8 sm:h-14 sm:w-14 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.75))] ${
-                          leader ? "scale-100" : "scale-[0.67]"
+                        className={`block max-w-none h-10 w-10 sm:h-16 sm:w-16 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_5px_rgba(0,0,0,0.9))_drop-shadow(0_0_7px_rgba(220,38,38,0.55))] ${
+                          leader ? "scale-100" : "scale-[0.72]"
                         }`}
                       />
                     </div>
