@@ -280,7 +280,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                 </div>
               )}
 
-              {/* Boats */}
+            </div>
+
+            {/* Boats ride above the water layer so the track edges never clip them */}
+            <div className="absolute inset-0 z-[46] pointer-events-none" aria-hidden>
               {boats.map((y, L) => {
                 const leader = L === leaderLane;
                 return (
@@ -292,19 +295,20 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   >
                     <div
                       className={`relative -translate-y-1/2 transition-opacity duration-700 ease-out ${
-                        leader ? "opacity-100" : "opacity-60"
+                        leader ? "opacity-100" : "opacity-80"
                       }`}
                     >
                       {leader && (
                         <div className="hidden sm:block absolute bottom-full left-1/2 -translate-x-1/2 w-[3px] h-14 rounded-full bg-gradient-to-t from-white/35 to-transparent" />
                       )}
-                      <span
-                        className={`block leading-none text-3xl sm:text-5xl origin-center transition-transform duration-700 ease-out ${
-                          leader ? "scale-100" : "scale-[0.67]"
+                      <img
+                        src={`${import.meta.env.BASE_URL}cursor.png`}
+                        alt=""
+                        draggable={false}
+                        className={`block max-w-none h-10 w-10 sm:h-16 sm:w-16 object-contain origin-center transition-transform duration-700 ease-out [filter:drop-shadow(0_2px_5px_rgba(0,0,0,0.9))_drop-shadow(0_0_7px_rgba(220,38,38,0.55))] ${
+                          leader ? "scale-100" : "scale-[0.72]"
                         }`}
-                      >
-                        🚣
-                      </span>
+                      />
                     </div>
                   </div>
                 );
