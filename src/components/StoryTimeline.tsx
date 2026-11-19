@@ -331,10 +331,10 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   aria-hidden={i !== active}
                 >
                   <div className="text-primary font-regatta font-bold text-2xl sm:text-3xl">{e.time}</div>
-                  <h3 className="font-regatta-title font-bold text-5xl sm:text-7xl md:text-8xl text-foreground leading-none mt-1">{e.title}</h3>
-                  <p className="text-muted-foreground font-regatta-body text-xl sm:text-2xl mt-3">{e.description}</p>
+                  <h3 className="font-regatta-title font-bold text-4xl sm:text-7xl md:text-8xl text-foreground leading-tight mt-1 break-words">{e.title}</h3>
+                  <p className="text-muted-foreground font-regatta-body text-lg sm:text-2xl mt-3">{e.description}</p>
                   <div className="w-12 h-px bg-primary/60 my-5" />
-                  <p className="text-foreground/90 font-regatta-body text-2xl sm:text-3xl leading-snug max-w-xl whitespace-pre-line">{e.backInfo}</p>
+                  <p className="text-foreground/90 font-regatta-body text-xl sm:text-3xl leading-snug max-w-xl whitespace-pre-line">{e.backInfo}</p>
                 </div>
               ))}
             </div>
