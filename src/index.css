@@ -26,7 +26,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap');
 
 @layer base {
   :root {
@@ -72,6 +72,7 @@
 
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
+    --font-regatta: 'Bebas Neue', sans-serif;
 
     --sidebar-background: 150 25% 8%;
     --sidebar-foreground: 45 30% 94%;
@@ -135,6 +136,10 @@
 
   .font-body {
     font-family: var(--font-body);
+  }
+
+  .font-regatta {
+    font-family: var(--font-regatta);
   }
 
   .gradient-christmas {

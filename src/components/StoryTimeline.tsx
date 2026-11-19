@@ -330,8 +330,8 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   }}
                   aria-hidden={i !== active}
                 >
-                  <div className="text-primary font-display italic text-xl sm:text-2xl tracking-wide">{e.time}</div>
-                  <h3 className="font-display text-4xl sm:text-6xl md:text-7xl text-foreground leading-none mt-1">{e.title}</h3>
+                  <div className="text-primary font-regatta text-2xl sm:text-3xl tracking-[0.15em]">{e.time}</div>
+                  <h3 className="font-regatta text-5xl sm:text-7xl md:text-8xl text-foreground leading-none mt-1 tracking-wide">{e.title}</h3>
                   <p className="text-muted-foreground uppercase tracking-[0.2em] text-xs sm:text-sm mt-3">{e.description}</p>
                   <div className="w-12 h-px bg-primary/60 my-5" />
                   <p className="text-foreground/90 font-display text-lg sm:text-2xl leading-snug max-w-xl whitespace-pre-line">{e.backInfo}</p>
