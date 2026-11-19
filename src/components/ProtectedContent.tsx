@@ -118,7 +118,7 @@ const ProtectedContent = ({ onLogout }: ProtectedContentProps) => {
   ];
 
   const timelineEvents = [
-    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en dag med mye halloi. Spis en god frokost, drikk vann og pakk det du trenger for første del av dagen." },
+    { time: "Morgen", title: "Hjemme hos deg selv", description: "Der det hele starter", icon: "🏠", backInfo: "Du starter dagen hjemme hos deg selv, uthvilt og klar for en dag med mye halloi. Spis en god frokost, drikk vann og pakk det viktigste du trenger for første del av dagen:\n- Treningstøy (Norges-drakt om du finner'n)\n- Badebukse\n- Håndkle x 2" },
     { time: "10:45", title: "Treningsøkt", description: "6 x 4min på the machine designed in hell 👺", icon: "🍾", backInfo: "Vi møtes på NSR og sikter på start litt over 11. LFG" },
     { time: "13:15", title: "Badstue", description: "Trosten - Sukkerbiten", icon: "🍾", backInfo: "Transport fra roklubben til badstue 🧖 Husk badebukse, håndkle og evt noe om du er tørst 🚰" },
     { time: "18:15", title: "Vors", description: "Krebs gate 14", icon: "🍾", backInfo: "Vi møtes selvfølgelig til vorssprell med mye ljuging, sang og nok alkohol (IKKE ta med egen drikke). I tillegg oppfordrer vi alle til å la slipset ligge igjen hjemme (som betyr IKKE ta med slips)" },

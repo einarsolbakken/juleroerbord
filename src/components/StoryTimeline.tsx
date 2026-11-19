@@ -334,7 +334,7 @@ const StoryTimeline = ({ events }: { events: StoryEvent[] }) => {
                   <h3 className="font-display text-4xl sm:text-6xl md:text-7xl text-foreground leading-none mt-1">{e.title}</h3>
                   <p className="text-muted-foreground uppercase tracking-[0.2em] text-xs sm:text-sm mt-3">{e.description}</p>
                   <div className="w-12 h-px bg-primary/60 my-5" />
-                  <p className="text-foreground/90 font-display text-lg sm:text-2xl leading-snug max-w-xl">{e.backInfo}</p>
+                  <p className="text-foreground/90 font-display text-lg sm:text-2xl leading-snug max-w-xl whitespace-pre-line">{e.backInfo}</p>
                 </div>
               ))}
             </div>
